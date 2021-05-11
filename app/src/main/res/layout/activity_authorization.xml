@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="30dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical"
+    tools:context=".AuthorizationActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/auth1_text"
+        android:textSize="24sp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/auth2_text"
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:inputType="phone"
+         android:textSize="20sp"
+         android:hint="@string/phone_editView"
+         android:layout_marginBottom="10dp"/>
+
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="20sp"
+        android:text="@string/get_code_text" />
+
+    <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:inputType="phone"
+         android:textSize="20sp"
+         android:hint="@string/confirm_code_editView"
+         android:layout_marginTop="20dp"
+         android:layout_marginBottom="10dp"/>
+
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="20sp"
+        android:id="@+id/btn_enter2_profile"
+        android:text="@string/sign_in_text" />
+</LinearLayout>

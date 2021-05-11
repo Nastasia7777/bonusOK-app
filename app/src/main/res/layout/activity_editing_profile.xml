@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="30dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical"
+    tools:context=".EditingProfileActivity">
+
+    <ImageView
+           android:layout_width="150dp"
+           android:layout_height="160dp"
+           android:layout_gravity="center"
+           android:src="@drawable/default_avatar" />
+
+    <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:inputType="phone"
+         android:textSize="20sp"
+         android:hint="@string/name_user_editView"
+         android:layout_marginBottom="30dp"/>
+
+    <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:inputType="phone"
+         android:textSize="20sp"
+         android:id="@+id/btn_saving_date"
+         android:hint="@string/birthdate_editView"
+         android:layout_marginBottom="30dp"/>
+
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="20sp"
+        android:text="@string/save_text" />
+
+</LinearLayout>
