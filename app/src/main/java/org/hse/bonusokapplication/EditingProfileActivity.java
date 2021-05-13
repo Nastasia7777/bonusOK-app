@@ -13,6 +13,13 @@ public class EditingProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editing_profile);
 
         View saving_date_btn= findViewById(R.id.btn_saving_date);
+        View exit_btn = findViewById(R.id.btn_exit);
+
+        exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMain(); }
+        });
 
         saving_date_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,6 +29,11 @@ public class EditingProfileActivity extends AppCompatActivity {
 
      private void showProfile() {
          Intent intent = new Intent(this, ProfileActivity.class);
+         startActivity(intent);
+     }
+
+      private void showMain() {
+         Intent intent = new Intent(this, MainActivity.class);
          startActivity(intent);
      }
 }
