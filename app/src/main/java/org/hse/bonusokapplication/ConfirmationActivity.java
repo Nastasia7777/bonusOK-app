@@ -2,6 +2,7 @@ package org.hse.bonusokapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -29,7 +30,7 @@ public class ConfirmationActivity extends AppCompatActivity {
     }
 
     private void showProfile() {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 

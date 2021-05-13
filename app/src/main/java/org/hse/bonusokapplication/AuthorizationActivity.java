@@ -29,7 +29,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     }
 
      private void showProfile() {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 
