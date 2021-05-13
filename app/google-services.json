@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "128020255427",
+    "project_id": "bonusok-application",
+    "storage_bucket": "bonusok-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128020255427:android:529031aa52194fecb48876",
+        "android_client_info": {
+          "package_name": "org.hse.bonusokapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128020255427-g5e09n7jl2i48uiu0s55mt4rgeh727s9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3CWzN4hz5wG0PvTaCMCs6WW0NWSbdixQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128020255427-g5e09n7jl2i48uiu0s55mt4rgeh727s9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
