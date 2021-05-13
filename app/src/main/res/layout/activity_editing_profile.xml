@@ -29,7 +29,6 @@
          android:layout_height="wrap_content"
          android:inputType="phone"
          android:textSize="20sp"
-         android:id="@+id/btn_saving_date"
          android:hint="@string/birthdate_editView"
          android:layout_marginBottom="30dp"/>
 
@@ -37,6 +36,15 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:textSize="20sp"
+        android:id="@+id/btn_saving_date"
         android:text="@string/save_text" />
+
+     <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="20sp"
+        android:id="@+id/btn_exit"
+        android:text="@string/exit_text"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

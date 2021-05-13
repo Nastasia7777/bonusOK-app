@@ -10,16 +10,55 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BonusokApplication">
-        <activity android:name=".DiscountDescription"></activity>
+        <activity android:name=".DiscountDescription" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".EditingProfileActivity" />
         <activity android:name=".DiscountActivity" />
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".AuthorizationActivity" />
-        <activity android:name=".ConfirmationActivity" />
-        <activity android:name=".RegistrationActivity" />
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AuthorizationActivity"
+            android:label="@string/student_activity_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ConfirmationActivity"
+            android:label="@string/confirm_activity_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".EditingProfileActivity"
+            android:label="@string/editing_profile_activity_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/profile_activity_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="@string/registration_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

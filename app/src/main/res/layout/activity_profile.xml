@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,36 +18,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-       <ImageView
-           android:layout_width="150dp"
-           android:layout_height="160dp"
-           android:layout_gravity="center"
-           android:layout_marginTop="20dp"
-           android:src="@drawable/default_avatar" />
-
-        <TextView
+       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="@string/number_user_text"
-          android:layout_gravity="center"
-          android:textSize="20sp"
+          android:text="@string/qr_scan_text"
+          android:textSize="24sp"
+          android:gravity="center"
+          android:layout_marginTop="20dp"
           android:layout_marginBottom="10dp"/>
 
-        <Button
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           android:textSize="18sp"
-           android:id="@+id/btn_edit_profile"
-           android:text="@string/edit_inform" />
+      <ImageView
+           android:id="@+id/qr"
+           android:layout_width="150dp"
+           android:layout_height="160dp"
+           android:layout_gravity="center"/>
 
-        <TextView
+         <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="@string/number_bonus_text"
            android:textSize="24sp"
            android:layout_gravity="center"
-           android:layout_marginTop="20dp"
            android:layout_marginBottom="10dp"/>
 
         <TextView
@@ -58,23 +49,22 @@
           android:textSize="30dp"
           android:layout_marginBottom="10dp"/>
 
-       <TextView
+         <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="@string/qr_scan_text"
-          android:textSize="24sp"
-          android:gravity="center"
+          android:text="@string/number_user_text"
+          android:layout_gravity="center"
+          android:textSize="20sp"
           android:layout_marginBottom="10dp"/>
-
-     <ImageView
-           android:id="@+id/qr"
-           android:layout_width="150dp"
-           android:layout_height="160dp"
+      
+        <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
            android:layout_gravity="center"
-           android:src="@drawable/scan_qr_code"
+           android:textSize="18sp"
+           android:id="@+id/btn_edit_profile"
+           android:text="@string/edit_inform"
            android:layout_marginBottom="40dp"/>
-
     </LinearLayout>
-
  </ScrollView>
-</LinearLayout>
+</RelativeLayout>

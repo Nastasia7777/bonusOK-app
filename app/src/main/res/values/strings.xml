@@ -26,18 +26,22 @@
     <string name="number_bonus_text">Количество бонусов на счете : </string>
     <string name="qr_scan_text">Поднесите QR-код для сканирования</string>
     <string name="discount_text">Список акций</string>
-    <string name="detail_text">Подробнее</string>
     <string name="save_text">Сохранить</string>
     <string name="birthdate_editView">Дата рождения</string>
     <string name="name_user_editView">Имя пользователя</string>
     <string name="edit_inform">Редактировать данные</string>
-    <string name="edit_photo_text">Редактировать фото</string>
     <string name="menu_discount_text">Акции</string>
     <string name="menu_about_us_text">О приложении</string>
     <string name="menu_exit_text">Выход из профиля</string>
     <string name="description_discount_text">Данная акция проходит во всех сети кофеен ООО при предоставлении карты лояльности с 9:00 до 11:00</string>
     <string name="name_discount_text">Скидка 10% на утренний кофе</string>
     <string name="date_discount_text">Акция действует с 15.05 по 15.07</string>
-    <string name="name_disсount_text">Скидка 10% на утренний кофе</string>
     <string name="number_bonuses_text">100</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="exit_text">Выйти из приложения</string>
+    <string name="registration_activity_title">Регистрация</string>
+    <string name="confirm_activity_title">Подтверждение входа</string>
+    <string name="student_activity_title">Авторизация</string>
+    <string name="editing_profile_activity_title">Редактирование профиля</string>
+    <string name="profile_activity_title">Профиль</string>
 </resources>
