@@ -1,84 +1,86 @@
 package org.hse.bonusokapplication.Models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.Date;
 
-public class CardModel implements Parcelable {
+public class CardModel  {
 
-    private int Id;
-    private int BonusQuantity;
-    private Date StartDate;
-    private Date EndDate;
-    private int CardCode;
+    private int id;
+    private int bonusQuantity;
+    private Date startDate;
+    private Date endDate;
+    private int cardCode;
 
-    private ClientModel Client;
 
-    public CardModel(int id, int bonusQuantity, Date startDate, Date endDate, int cardCode, ClientModel client) {
-        Id = id;
-        BonusQuantity = bonusQuantity;
-        StartDate = startDate;
-        EndDate = endDate;
-        CardCode = cardCode;
-        Client = client;
+    public CardModel(int id, int bonusQuantity, Date startDate, Date endDate, int cardCode) {
+        this.id = id;
+        this.bonusQuantity = bonusQuantity;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.cardCode = cardCode;
+    }
+
+    @Override
+    public String toString() {
+        return "CardModel{" +
+                "Id=" + id +
+                ", BonusQuantity=" + bonusQuantity +
+                ", StartDate=" + startDate +
+                ", EndDate=" + endDate +
+                ", CardCode=" + cardCode +
+                '}';
     }
 
     // Getters
     public int getId() {
-        return Id;
+        return id;
     }
 
     public int getBonusQuantity() {
-        return BonusQuantity;
+        return bonusQuantity;
     }
 
     public Date getStartDate() {
-        return StartDate;
+        return startDate;
     }
 
     public Date getEndDate() {
-        return EndDate;
+        return endDate;
     }
 
     public int getCardCode() {
-        return CardCode;
+        return cardCode;
     }
 
-    public ClientModel getClient() {
-        return Client;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    protected CardModel(Parcel in) {
-        Id = in.readInt();
-        BonusQuantity = in.readInt();
-        CardCode = in.readInt();
-        Client = in.readParcelable(ClientModel.class.getClassLoader());
-    }
-
-    public static final Creator<CardModel> CREATOR = new Creator<CardModel>() {
-        @Override
-        public CardModel createFromParcel(Parcel in) {
-            return new CardModel(in);
-        }
-
-        @Override
-        public CardModel[] newArray(int size) {
-            return new CardModel[size];
-        }
-    };
-
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(Id);
-        dest.writeInt(BonusQuantity);
-        dest.writeInt(CardCode);
-        dest.writeParcelable(Client, flags);
-    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    protected CardModel(Parcel in) {
+//        Id = in.readInt();
+//        BonusQuantity = in.readInt();
+//        CardCode = in.readInt();
+//
+//    }
+//
+//    public static final Creator<CardModel> CREATOR = new Creator<CardModel>() {
+//        @Override
+//        public CardModel createFromParcel(Parcel in) {
+//            return new CardModel(in);
+//        }
+//
+//        @Override
+//        public CardModel[] newArray(int size) {
+//            return new CardModel[size];
+//        }
+//    };
+//
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeInt(Id);
+//        dest.writeInt(BonusQuantity);
+//        dest.writeInt(CardCode);
+//    }
 }
