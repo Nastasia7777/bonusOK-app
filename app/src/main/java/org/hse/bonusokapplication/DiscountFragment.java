@@ -3,19 +3,25 @@ package org.hse.bonusokapplication;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import org.hse.bonusokapplication.Adapter.ItemAdapter;
+import org.hse.bonusokapplication.Adapter.OnPromoClick;
+import org.hse.bonusokapplication.Models.PromoModel;
+import org.hse.bonusokapplication.ViewModels.PromoListViewModel;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DiscountFragment extends Fragment {
+public class DiscountFragment extends Fragment implements OnPromoClick {
 
     private String tag = "DISCOUNT FRAGMENT";
 
@@ -53,9 +59,44 @@ public class DiscountFragment extends Fragment {
 //        }
 //    }
 
+    private RecyclerView recyclerView;
+    List<PromoModel> promoList = new ArrayList<>();
+    private ItemAdapter adapter;
+
+    private PromoListViewModel promoListViewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_discount, container, false);
+        View v = inflater.inflate(R.layout.fragment_discount, container, false);
+
+        //Если есть доступ к Интернету, то обновить акции
+        RecyclerView recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter =  new ItemAdapter(getActivity(), promoList, this);
+        recyclerView.setAdapter(adapter);
+
+
+        promoListViewModel = ViewModelProviders.of(this).get(PromoListViewModel.class);
+        promoListViewModel.getPromoListObserver().observe(getActivity(), new Observer<List<PromoModel>>() {
+            @Override
+            public void onChanged(List<PromoModel> promoModels) {
+                if(promoModels != null) {
+                    promoList = promoModels;
+                    adapter.setMovieList(promoModels);
+
+                } else {
+
+                }
+            }
+        });
+        promoListViewModel.searchPromoApi();
+        return v;
+    }
+
+    @Override
+    public void OnClick(PromoModel data) {
+        Toast.makeText(getActivity(), "Clicked Promo Name is : " +data.getName(), Toast.LENGTH_SHORT).show();
     }
 }

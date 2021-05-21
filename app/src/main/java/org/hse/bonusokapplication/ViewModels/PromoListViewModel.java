@@ -17,17 +17,21 @@ public class PromoListViewModel extends ViewModel {
 
     private PromoRepository promoRepository;
 
+    private MutableLiveData<List<PromoModel>> promoList;
+
+    public MutableLiveData<List<PromoModel>> getPromoListObserver(){
+        return promoList;
+    }
 
     public PromoListViewModel(){
+
+        promoList = new MutableLiveData<>();
         promoRepository = PromoRepository.getInstance();
     }
 
-    public LiveData<List<PromoModel>> getPromos(){
-        return promoRepository.getPromos();
-    }
 
     public void searchPromoApi(){
-        promoRepository.searchPromoApi();
+        promoList.postValue(promoRepository.makePromoApiCall());
     }
 
 }

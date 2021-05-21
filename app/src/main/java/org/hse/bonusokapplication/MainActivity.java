@@ -58,66 +58,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showEnter() {
-       // Intent intent = new Intent(this, AuthorizationActivity.class);
-       // startActivity(intent);
-        Log.d("TAG", "start");
-   //     getRetrofitResponse();
-    //    getRetrofitResponseById();
-        searchPromoApi();
-        Log.d("TAG", "end");
+        Intent intent = new Intent(this, AuthorizationActivity.class);
+        startActivity(intent);
     }
 
-
-    private void getRetrofitResponse(){
-
-        PromoApi promoApi = Service.getCardApi();
-        Call<List<PromoModel>> responseCall = promoApi.searchPromos(5);
-
-        responseCall.enqueue(new Callback<List<PromoModel>>() {
-            @Override
-            public void onResponse(Call<List<PromoModel>> call, Response<List<PromoModel>> response) {
-                Log.d("TAG", "in !");
-                if(response.code() ==200){
-                    Log.d("TAG", "the response: "+response.body().toString());
-                }
-                else{
-                    Log.d("TAG", "the error: "+response.errorBody().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<PromoModel>> call, Throwable t) {
-                Log.d("TAG", "on failure: "+t.getMessage());
-            }
-        });
-    }
-
-    private void getRetrofitResponseById(){
-        PromoApi promoApi = Service.getCardApi();
-        Call<PromoModel> responseCall = promoApi.searchPromo(5, 15);
-
-        responseCall.enqueue(new Callback<PromoModel>() {
-            @Override
-            public void onResponse(Call<PromoModel> call, Response<PromoModel> response) {
-                Log.d("TAG", "in !");
-                if(response.code() ==200){
-                    Log.d("TAG", "the response: "+response.body().getDescription());
-                }
-                else{
-                    Log.d("TAG", "the error: "+response.errorBody().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PromoModel> call, Throwable t) {
-                Log.d("TAG", "on failure: "+t.getMessage());
-            }
-        });
-    }
 
     private void ObserveAnyChange()
     {
-        promoListViewModel.getPromos().observe(this, new Observer<List<PromoModel>>() {
+        promoListViewModel.getPromoListObserver().observe(this, new Observer<List<PromoModel>>() {
             @Override
             public void onChanged(List<PromoModel> promoModels) {
                 // observing for any promo data change
@@ -127,9 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     }
             }
         });
-    }
-
-    private void searchPromoApi(){
         promoListViewModel.searchPromoApi();
     }
+
 }
