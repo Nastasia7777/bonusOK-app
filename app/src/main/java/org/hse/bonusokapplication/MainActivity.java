@@ -23,8 +23,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String URL = "https://api.ipgeolocation.io/ipgeo?apiKey=b03018f75ed94023a005637878ec0977";
-    private OkHttpClient client = new OkHttpClient();
     private PromoListViewModel promoListViewModel;
 
     @Override

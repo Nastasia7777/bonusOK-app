@@ -1,16 +1,26 @@
 package org.hse.bonusokapplication.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.hse.bonusokapplication.AuthorizationActivity;
+import org.hse.bonusokapplication.DiscountDescription;
 import org.hse.bonusokapplication.Models.PromoModel;
 import org.hse.bonusokapplication.R;
 
-public final class PromoViewHolder extends RecyclerView.ViewHolder{
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public final class PromoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     private Context context;
     private OnPromoClick onPromoClick;
@@ -22,17 +32,37 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder{
         // set photo
     }
 
-    public PromoViewHolder(View itemView, Context context,  OnPromoClick onPromoClick) {
+    private PromoModel currentPromo;
+
+    public PromoViewHolder(View itemView, Context context) {
         super(itemView);
         this.context = context;
-        this.onPromoClick = onPromoClick;
         promoImage = itemView.findViewById(R.id.promoImage);
         name = itemView.findViewById(R.id.name);
         description = itemView.findViewById(R.id.description);
+        itemView.setOnClickListener(this);
     }
 
     public void bind(final PromoModel data){
-        name.setText(data.getName());
+        name.setText(data.getName()+" c "+timeFormat(data.getStartDate())+" по "+timeFormat(data.getEndDate()));
         description.setText(data.getDescription());
+        currentPromo = data;
+    }
+
+    private String timeFormat(Date date){
+        Locale rus = new Locale("ru", "RU");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.", rus);
+        return simpleDateFormat.format(date);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Activity activity = (Activity) context;
+        Intent intent = new Intent(activity, DiscountDescription.class);
+        intent.putExtra(DiscountDescription.PROMO_NAME, currentPromo.getName());
+        intent.putExtra(DiscountDescription.PROMO_DESCRIPTION, currentPromo.getDescription());
+        intent.putExtra(DiscountDescription.PROMO_START_DATE, currentPromo.getStartDate());
+        intent.putExtra(DiscountDescription.PROMO_END_DATE, currentPromo.getEndDate());
+        activity.startActivity(intent);
     }
 }

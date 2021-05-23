@@ -16,6 +16,7 @@
      android:orientation="vertical">
 
     <TextView
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name_discount_text"
@@ -33,6 +34,7 @@
         android:layout_marginBottom="10dp"/>
 
       <TextView
+          android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/description_discount_text"
@@ -42,6 +44,7 @@
         android:layout_marginBottom="10dp"/>
 
      <TextView
+         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/date_discount_text"

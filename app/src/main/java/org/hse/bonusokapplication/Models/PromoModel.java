@@ -25,6 +25,10 @@ public class PromoModel{
         this.clients = clients;
     }
 
+    public PromoModel(){
+
+    }
+
 //    protected PromoModel(Parcel in) {
 //        id = in.readInt();
 //        name = in.readString();

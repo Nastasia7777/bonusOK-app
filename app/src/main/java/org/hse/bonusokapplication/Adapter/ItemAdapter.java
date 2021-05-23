@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +16,7 @@ import org.hse.bonusokapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public final class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private Context context;
     private List<PromoModel> dataList = new ArrayList<>();
@@ -44,7 +45,7 @@ public final class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View contactView = inflater.inflate(R.layout.item_discount, parent, false);
-        return new PromoViewHolder(contactView, context, onPromoClick);
+        return new PromoViewHolder(contactView, context);
     }
 
 
@@ -65,6 +66,5 @@ public final class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void setDataList(List<PromoModel> list) {
         this.dataList = list;
     }
-
 
 }
