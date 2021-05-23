@@ -8,16 +8,21 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import org.hse.bonusokapplication.ViewModels.PromoListViewModel;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DiscountActivity extends AppCompatActivity {
+public class DiscountActivity extends AppCompatActivity{
 
     String tag = "DiscountActivity";
     private String imageFilePath;
+
+
+    private PromoListViewModel promoListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,7 @@ public class DiscountActivity extends AppCompatActivity {
 
         //Если нет доступа, то загрузить акции из кэша
     }
+
 
     private void getImageForSaving(ImageView imageView)
     {
@@ -55,4 +61,6 @@ public class DiscountActivity extends AppCompatActivity {
             Glide.with(this).load(imageFilePath).into(img);
         }
     }
+
+
 }
