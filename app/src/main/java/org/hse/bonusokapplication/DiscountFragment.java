@@ -1,7 +1,9 @@
 package org.hse.bonusokapplication;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -71,14 +73,22 @@ public class DiscountFragment extends Fragment implements OnPromoClick {
         View v = inflater.inflate(R.layout.fragment_discount, container, false);
 
         //Если есть доступ к Интернету, то обновить акции
+        promoListViewModel = ViewModelProviders.of(this).get(PromoListViewModel.class);
         RecyclerView recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter =  new ItemAdapter(getActivity(), promoList, this);
+        adapter =  new ItemAdapter(getActivity(), promoList, new OnPromoClick() {
+            @Override
+            public void OnClick(PromoModel data) {
+                Toast.makeText(getActivity(), "Clicked Promo Name is : " +data.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(adapter);
+        ObserveAnyChange();
+        return v;
+    }
 
-
-        promoListViewModel = ViewModelProviders.of(this).get(PromoListViewModel.class);
+    private void ObserveAnyChange(){
         promoListViewModel.getPromoListObserver().observe(getActivity(), new Observer<List<PromoModel>>() {
             @Override
             public void onChanged(List<PromoModel> promoModels) {
@@ -92,8 +102,9 @@ public class DiscountFragment extends Fragment implements OnPromoClick {
             }
         });
         promoListViewModel.searchPromoApi();
-        return v;
     }
+
+
 
     @Override
     public void OnClick(PromoModel data) {
