@@ -36,4 +36,8 @@ public interface ClientApi {
     //получить токен и id клиента
     @POST("api/Auth/token")
     Call<DeviceModel> getToken (@Query("number") String phoneNumber, @Query("code") String code);
+
+    //регистрация пользователя
+    @POST("/api/Auth/register")
+    Call<Void> postNewUser (@Query("number") String phoneNumber);
 }

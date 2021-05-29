@@ -41,16 +41,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AuthorizationActivity extends AppCompatActivity {
+public class AuthorizationActivity extends BaseClientActivity {
 
-    Button get_code_btn, enter2_profile_btn;
-    EditText phone_input_text, code_input_text;
+    private Button get_code_btn, enter2_profile_btn;
+    private EditText phone_input_text, code_input_text;
     private String phone_number, sms_code;
     //private Boolean user_can_enter = false;
 
-    private PreferenceManager prefs;
-    //private ClientRepository clientRepository;
-    private ClientViewModel clientViewModel;
     private String TAG = "AuthorizationActivity";
 
     @Override
@@ -60,10 +57,6 @@ public class AuthorizationActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        prefs = new PreferenceManager(this);
-        //clientRepository = ClientRepository.getInstance();
-        clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
 
         get_code_btn = findViewById(R.id.btn_get_code);
         enter2_profile_btn= findViewById(R.id.btn_enter2_profile);
@@ -79,7 +72,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Проверяем длину введенного номера и удаляем из него лишние символы
                 phone_number = phone_input_text.getText().toString();
-                if (checkPhoneNumber()) get_code_btn.setEnabled(true);
+                if (checkPhoneNumber(phone_number)) get_code_btn.setEnabled(true);
                 else get_code_btn.setEnabled(false);
                 phone_number = deleteSymbolsFromPhoneNumber(phone_number);
             }
@@ -96,7 +89,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Проверям длину смс-кода
                 sms_code = code_input_text.getText().toString();
-                if (checkCode()) enter2_profile_btn.setEnabled(true);
+                if (checkCode(sms_code)) enter2_profile_btn.setEnabled(true);
                 else enter2_profile_btn.setEnabled(false);
             }
 
@@ -105,16 +98,6 @@ public class AuthorizationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-    }
-
-    public boolean checkPhoneNumber(){ return phone_number.contains("_") ? false : true; }
-
-    public boolean checkCode(){
-        return sms_code.length() == 4 ? true : false;
-    }
-
-    public String deleteSymbolsFromPhoneNumber(String phone_number){
-        return phone_number.replaceAll("\\D", "");
     }
 
     @Override
@@ -135,6 +118,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         }
         prefs.savePhoneNumber(phone_number);
         observeAnyChangeAboutUserStatus();
+        makeAuthCodeApiCall(phone_number);
     }
 
     private void observeAnyChangeAboutUserStatus(){
@@ -152,7 +136,6 @@ public class AuthorizationActivity extends AppCompatActivity {
                 }
             }
         });
-        makeAuthCodeApiCall(phone_number);
     }
 
     //Отправление смс-кода пользователю
@@ -191,6 +174,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             return;
         }
         observeAnyChangeAboutToken();
+        makeTokenApiCall(phone_number, sms_code);
     }
 
     private void observeAnyChangeAboutToken(){
@@ -203,7 +187,6 @@ public class AuthorizationActivity extends AppCompatActivity {
                 getClientCard(device.getUserId(), device.getToken());
             }
         });
-        makeTokenApiCall(phone_number, sms_code);
     }
 
     public void getClientData(int clientId, String token){
@@ -231,89 +214,5 @@ public class AuthorizationActivity extends AppCompatActivity {
             }
         });
         makeClientCardApiCall(clientId, token);
-    }
-
-    //Токен
-    public void makeTokenApiCall (String phone, String sms_code)
-    {
-        ClientApi clientApi = Service.getClientApi();
-        Call<DeviceModel> responseCall = clientApi.getToken(phone, sms_code);
-        responseCall.enqueue(new Callback<DeviceModel>() {
-            @Override
-            public void onResponse(Call<DeviceModel> call, Response<DeviceModel> response) {
-                if(response.code() == 200){
-                    clientViewModel.deviceModel.postValue((DeviceModel) response.body());
-                    Log.d(TAG, "get token, the response code is " + response.code());
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), R.string.invalid_code, Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "the error: "+response.errorBody().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DeviceModel> call, Throwable t) {
-                Log.d(TAG, "on failure: "+t.getMessage());
-            }
-        });
-    }
-
-    public void makeClientApiCall (int user_id, String token)
-    {
-        ClientApi clientApi = Service.getClientApi();
-        Call<ClientModel> responseCall = clientApi.getClient(user_id, token);
-        responseCall.enqueue(new Callback<ClientModel>() {
-            @Override
-            public void onResponse(Call<ClientModel> call, Response<ClientModel> response) {
-                if(response.code() == 200){
-                    clientViewModel.clientModel.postValue((ClientModel) response.body());
-                    Log.d(TAG, "get client, the response code is " + response.code());
-                }
-                else{ //403, неверный токен
-                    Log.d(TAG, "invalid token, the error: "+response.errorBody().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ClientModel> call, Throwable t) {
-                Log.d(TAG, "on failure: "+t.getMessage());
-            }
-        });
-    }
-
-    public void makeClientCardApiCall (int user_id, String token)
-    {
-        ClientApi clientApi = Service.getClientApi();
-        Call<CardModel> responseCall = clientApi.getClientCard(user_id, token);
-        responseCall.enqueue(new Callback<CardModel>() {
-            @Override
-            public void onResponse(Call<CardModel> call, Response<CardModel> response) {
-                switch (response.code()){
-                    case 200:
-                        clientViewModel.cardModel.postValue((CardModel) response.body());
-                        Log.d(TAG, "get card, the response code is " + response.code());
-                        break;
-                    case 400:
-                        Log.d(TAG, "client doesn`t have a card, the error: "+response.errorBody().toString());
-                        break;
-                    case 403:
-                        Log.d(TAG, "invalid token, the error: "+response.errorBody().toString());
-                        break;
-                    case 404:
-                        Log.d(TAG, "client doesn`t exist, the error: "+response.errorBody().toString());
-                        break;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CardModel> call, Throwable t) {
-                Log.d(TAG, "on failure: "+t.getMessage());
-            }
-        });
-    }
-
-    private void showProfile() {
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
     }
 }
