@@ -55,4 +55,8 @@
     <string name="invalid_code">Код неверный</string>
     <string name="login_error">Ошибка входа</string>
 
+    //RegistrationActivity
+    <string name="invalid_phone_number">Некорректный номер телефона</string>
+    <string name="user_already_exist">Данный номер уже зарегистрирован</string>
+
 </resources>

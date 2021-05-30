@@ -18,22 +18,25 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="20dp"/>
 
-     <EditText
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:inputType="number"
-         android:textSize="20sp"
-         android:hint="@string/sms_password_editView"
-         android:layout_marginBottom="10dp"
-         android:layout_marginRight="20dp"/>
+    <EditText
+        android:id="@+id/code_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/sms_password_editView"
+        android:inputType="number"
+        android:maxLength="4"
+        android:textSize="20sp" />
 
-     <Button
+    <Button
+        android:id="@+id/btn_enter2_profile"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textSize="20sp"
         android:layout_marginRight="20dp"
-        android:id="@+id/btn_enter1_profile"
-        android:text="@string/sign_in_text" />
+        android:onClick="enterToProfileOnClick"
+        android:text="@string/sign_in_text"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
