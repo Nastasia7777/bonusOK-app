@@ -96,6 +96,7 @@ public class DiscountFragment extends Fragment implements OnPromoClick {
                     promoList = promoModels;
                     adapter.setMovieList(promoModels);
 
+                    //Обновить список акций в кэше
                 } else {
 
                 }

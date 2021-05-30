@@ -4,25 +4,24 @@ import java.util.Date;
 
 public class CardModel  {
 
-    private int id;
     private int bonusQuantity;
     private Date startDate;
     private Date endDate;
     private int cardCode;
 
 
-    public CardModel(int id, int bonusQuantity, Date startDate, Date endDate, int cardCode) {
-        this.id = id;
+    public CardModel(int bonusQuantity, Date startDate, Date endDate, int cardCode) {
         this.bonusQuantity = bonusQuantity;
         this.startDate = startDate;
         this.endDate = endDate;
         this.cardCode = cardCode;
     }
 
+    public CardModel() {}
+
     @Override
     public String toString() {
         return "CardModel{" +
-                "Id=" + id +
                 ", BonusQuantity=" + bonusQuantity +
                 ", StartDate=" + startDate +
                 ", EndDate=" + endDate +
@@ -31,10 +30,6 @@ public class CardModel  {
     }
 
     // Getters
-    public int getId() {
-        return id;
-    }
-
     public int getBonusQuantity() {
         return bonusQuantity;
     }

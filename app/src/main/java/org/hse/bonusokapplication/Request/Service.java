@@ -1,10 +1,15 @@
 package org.hse.bonusokapplication.Request;
 
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.hse.bonusokapplication.PreferenceManager;
+import org.hse.bonusokapplication.Utils.ClientApi;
 import org.hse.bonusokapplication.Utils.Credentials;
 import org.hse.bonusokapplication.Utils.PromoApi;
+import org.hse.bonusokapplication.ViewModels.ClientViewModel;
 
 import java.io.IOException;
 
@@ -55,8 +60,10 @@ public class Service {
     private static Retrofit retrofit = retrofitBuilder.build();
 
     private static PromoApi promoApi = retrofit.create(PromoApi.class);
+    private static ClientApi clientApi = retrofit.create(ClientApi.class);
 
     public static PromoApi getPromoApi(){
         return promoApi;
     }
+    public static  ClientApi getClientApi() { return clientApi; }
 }
