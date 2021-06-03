@@ -1,7 +1,9 @@
 package org.hse.bonusokapplication;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -9,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 
 import org.hse.bonusokapplication.Models.DeviceModel;
@@ -22,6 +26,7 @@ public class ConfirmationActivity extends BaseClientActivity {
     private PreferenceManager prefs;
     EditText code_input;
     Button enter2_profile_btn;
+    TextView mTimer;
     private String phone_number, sms_code;
 
     @Override
@@ -54,6 +59,47 @@ public class ConfirmationActivity extends BaseClientActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
+
+        boolean hasTimerFinished = false;
+        mTimer = findViewById(R.id.resend_code);
+
+        mTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasTimerFinished) {
+                    // Повторный запрос
+                    startResendTimer();
+                }
+            }
+        });
+
+         startResendTimer();
+    }
+
+    public void startResendTimer ()
+    {
+        ConfirmationActivity context = this;
+
+        mTimer.setClickable(false);
+        mTimer.setFocusable(false);
+     //Создаем таймер обратного отсчета на 20 секунд с шагом отсчета
+        //в 1 секунду (задаем значения в миллисекундах):
+        new CountDownTimer(20000, 1000) {
+
+            //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
+            public void onTick(long millisUntilFinished) {
+                mTimer.setText("Осталось: "
+                        + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                mTimer.setText("Отправить повторно");
+                mTimer.setTextColor(ContextCompat.getColor(context, R.color.link));
+                mTimer.setClickable(true);
+                mTimer.setFocusable(true);
+            }
+        }
+                .start();
     }
 
     public void enterToProfileOnClick(View view){
