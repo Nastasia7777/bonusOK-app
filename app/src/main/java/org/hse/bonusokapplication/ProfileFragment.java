@@ -12,14 +12,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.hse.bonusokapplication.Models.CardModel;
+import org.hse.bonusokapplication.ViewModels.CardViewModel;
+
 public class ProfileFragment extends Fragment {
         ImageView imageView;
+        TextView bonusQuantity;
+    protected PreferenceManager prefs;
+    protected CardModel cardModel;
 
     public ProfileFragment() {
 
@@ -33,9 +40,12 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
          View edit_profile_btn = view.findViewById(R.id.btn_edit_profile);
-
+        prefs = new PreferenceManager(getActivity());
+        cardModel = prefs.getCardModel();
         imageView = (ImageView)view.findViewById(R.id.qr);
-        createQr("1234567891112222");
+        bonusQuantity = (TextView)view.findViewById(R.id.bonusQuantity);
+        bonusQuantity.setText(getBonusQuantity());
+        imageView.setImageBitmap(CardViewModel.createQrBitmap(getCardCode()));
 
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -67,5 +77,15 @@ public class ProfileFragment extends Fragment {
 
 
         return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+    private String getCardCode(){
+        int res = cardModel.getCardCode();
+        return Integer.toString(res);
+    }
+
+    private String getBonusQuantity(){
+        int res = cardModel.getBonusQuantity();
+        return Integer.toString(res);
     }
 }

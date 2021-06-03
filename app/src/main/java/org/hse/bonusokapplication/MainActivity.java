@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PromoListViewModel promoListViewModel;
     private PreferenceManager prefs;
+    private int clientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         String s = prefs.getToken();
         if (prefs.getToken() != "") {
             Intent intent = new Intent(this, MenuActivity.class);
+            clientId = prefs.getClientModel().getId();
+            intent.putExtra(MenuActivity.CLIENT_ID, clientId);
             startActivity(intent);
         }
 
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     }
             }
         });
-        promoListViewModel.searchPromoApi();
+        promoListViewModel.searchPromoApi(clientId);
     }
 
 }

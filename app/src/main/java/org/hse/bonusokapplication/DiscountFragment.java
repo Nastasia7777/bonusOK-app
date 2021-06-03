@@ -26,6 +26,7 @@ import java.util.List;
 public class DiscountFragment extends Fragment implements OnPromoClick {
 
     private String tag = "DISCOUNT FRAGMENT";
+    private int clientId;
 
     public DiscountFragment() {
     }
@@ -70,6 +71,10 @@ public class DiscountFragment extends Fragment implements OnPromoClick {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            clientId = bundle.getInt(MenuActivity.CLIENT_ID, 5);
+        }
         View v = inflater.inflate(R.layout.fragment_discount, container, false);
 
         //Если есть доступ к Интернету, то обновить акции
@@ -102,7 +107,7 @@ public class DiscountFragment extends Fragment implements OnPromoClick {
                 }
             }
         });
-        promoListViewModel.searchPromoApi();
+        promoListViewModel.searchPromoApi(clientId);
     }
 
 

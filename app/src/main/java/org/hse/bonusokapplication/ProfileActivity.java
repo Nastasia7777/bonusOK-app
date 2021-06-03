@@ -16,9 +16,13 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.hse.bonusokapplication.Models.CardModel;
+import org.hse.bonusokapplication.ViewModels.CardViewModel;
+
 public class ProfileActivity extends AppCompatActivity {
 
     ImageView imageView;
+    protected PreferenceManager prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +30,9 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
          View edit_profile_btn= findViewById(R.id.btn_edit_profile);
-
+        prefs = new PreferenceManager(this);
         imageView = (ImageView)findViewById(R.id.qr);
-        createQr("1234567891112222");
+        imageView.setImageBitmap(CardViewModel.createQrBitmap(getCardCode()));
 
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -42,16 +46,10 @@ public class ProfileActivity extends AppCompatActivity {
          startActivity(intent);
      }
 
-    private void createQr(String code){
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        try{
-            BitMatrix bitMatrix = multiFormatWriter.encode(code, BarcodeFormat.QR_CODE, 500, 500);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-            imageView.setImageBitmap(bitmap);
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    private String getCardCode(){
+        CardModel cardModel = prefs.getCardModel();
+        int res = cardModel.getCardCode();
+        return Integer.toString(res);
     }
 }
