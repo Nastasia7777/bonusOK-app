@@ -27,8 +27,6 @@
     <string name="qr_scan_text">Поднесите QR-код для сканирования</string>
     <string name="discount_text">Список акций</string>
     <string name="save_text">Сохранить</string>
-    <string name="birthdate_editView">Дата рождения</string>
-    <string name="name_user_editView">Имя пользователя</string>
     <string name="edit_inform">Редактировать данные</string>
     <string name="menu_discount_text">Акции</string>
     <string name="menu_about_us_text">О приложении</string>
@@ -58,5 +56,11 @@
     //RegistrationActivity
     <string name="invalid_phone_number">Некорректный номер телефона</string>
     <string name="user_already_exist">Данный номер уже зарегистрирован</string>
+
+    //EditingProfileActivity
+    <string name="birthday_editView">Дата рождения</string>
+    <string name="name_user_editView">Имя пользователя</string>
+    <string name="surname_user_editView">Фамилия пользователя</string>
+    <string name="email_user_editView">Электронная почта</string>
 
 </resources>

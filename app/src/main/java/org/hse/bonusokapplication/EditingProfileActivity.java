@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,12 +22,24 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.hse.bonusokapplication.Models.ClientModel;
+import org.hse.bonusokapplication.Request.Service;
+import org.hse.bonusokapplication.Utils.ClientApi;
+
 import java.util.Calendar;
+import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditingProfileActivity extends AppCompatActivity {
 
-    TextView currentDateTime;
-    Calendar dateAndTime=Calendar.getInstance();
+    EditText name_text, surname_text, birthday_text, email_text;
+    Button save_button, exit_button;
+    Calendar dateAndTime = Calendar.getInstance();
+    private PreferenceManager prefs;
+    private ClientModel client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,49 +48,119 @@ public class EditingProfileActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        currentDateTime=(TextView)findViewById(R.id.date);
+
+        name_text = findViewById(R.id.name);
+        surname_text = findViewById(R.id.surname);
+        birthday_text = findViewById(R.id.date);
+        email_text = findViewById(R.id.email);
+        save_button = findViewById(R.id.btn_saving_date);
+        exit_button = findViewById(R.id.btn_exit);
+        save_button.setEnabled(false);
+
+        prefs = new PreferenceManager(this);
+        client = new ClientModel();
+        client = prefs.getClientModel();
+
+        getClientData();
         setInitialDateTime();
 
-
-        View saving_date_btn= findViewById(R.id.btn_saving_date);
-        View exit_btn = findViewById(R.id.btn_exit);
-
-        exit_btn.setOnClickListener(new View.OnClickListener() {
+        exit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        saving_date_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { showProfile(); }
+        name_text.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) { }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (name_text.getText().length() > 0 ) {
+                    save_button.setEnabled(true);
+                }
+            }
         });
 
-        EditText name_text = findViewById(R.id.name);
-        View  enter1_profile_btn = findViewById(R.id.btn_saving_date);
-            enter1_profile_btn.setEnabled(false);
+        surname_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
-              name_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (surname_text.getText().length() > 0 ) {
+                    save_button.setEnabled(true);
+                }
+            }
 
-                   public void afterTextChanged(Editable s) {
-                   }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
-                   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                   }
+        birthday_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
-                   public void onTextChanged(CharSequence s, int start,
-                                             int before, int count) {
-                       if (name_text.getText().length() > 0 ) {
-                           enter1_profile_btn.setEnabled(true);
-                           enter1_profile_btn.setOnClickListener(new View.OnClickListener() {
-                         @Override
-                         public void onClick(View v) {
-                         showProfile();
-                        }});
-                       }
-                   }
-               });
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (birthday_text.getText().length() > 0 ) {
+                    save_button.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        email_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (email_text.getText().length() > 0 ) {
+                    save_button.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+    }
+
+    public void saveClientDataOnClick (View view) {
+        client.setName(name_text.getText().toString());
+        client.setSurname(surname_text.getText().toString());
+        client.setEmail(email_text.getText().toString());
+        client.setBirthday(dateAndTime.getTime());
+        prefs.saveClientModel(client);
+        //отправить пост запрос
+        makeClientDataPutApiCall(client.getId(), prefs.getToken(), client);
+    }
+
+    public void makeClientDataPutApiCall(int id, String token, ClientModel clientModel) {
+        String TAG = "makeClientDataApiCall";
+        ClientApi clientApi = Service.getClientApi();
+        retrofit2.Call<Void> responseCall = clientApi.putClientData(id, token, clientModel);
+        responseCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, Response<Void> response) {
+                if(response.code() == 200){
+                    Log.d(TAG, "the response code is " + response.code());
+                }
+                else { //code = 403
+                    Log.d(TAG, "invalidToken, the response code is " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d(TAG, "on failure: "+t.getMessage());
+            }
+        });
     }
 
      private void showProfile() {
@@ -97,6 +181,7 @@ public class EditingProfileActivity extends AppCompatActivity {
     ab.setPositiveButton("Да", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
+            prefs.deleteAllPreferences();
             showMain();
         }
     });
@@ -120,21 +205,34 @@ public class EditingProfileActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item); }
     }
 
+    private void getClientData() {
+        if (client.getName() != null)
+            name_text.setText(client.getName());
+        if (client.getSurname() != null)
+            surname_text.setText(client.getSurname());
+        if (client.getBirthday() != null)
+            dateAndTime.setTime(client.getBirthday());
+        if (client.getEmail() != null)
+            email_text.setText(client.getEmail());
+    }
+
     public void setDate(View v) {
-        new DatePickerDialog(EditingProfileActivity.this, d,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(EditingProfileActivity.this, d,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
+        datePickerDialog.show();
+
     }
 
     private void setInitialDateTime() {
-        currentDateTime.setText(DateUtils.formatDateTime(this,
+        birthday_text.setText(DateUtils.formatDateTime(this,
                 dateAndTime.getTimeInMillis(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
     }
 
-    DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);

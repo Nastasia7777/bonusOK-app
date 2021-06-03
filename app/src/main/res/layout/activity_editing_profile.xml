@@ -10,12 +10,6 @@
     android:orientation="vertical"
     tools:context=".EditingProfileActivity">
 
-    <ImageView
-           android:layout_width="150dp"
-           android:layout_height="160dp"
-           android:layout_gravity="center"
-           android:src="@drawable/default_avatar" />
-
     <EditText
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
@@ -24,6 +18,15 @@
          android:id="@+id/name"
          android:hint="@string/name_user_editView"
          android:layout_marginBottom="30dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        android:id="@+id/surname"
+        android:hint="@string/surname_user_editView"
+        android:layout_marginBottom="30dp"/>
 
     <EditText
          android:layout_width="match_parent"
@@ -36,15 +39,25 @@
          android:focusable="false"
          android:focusableInTouchMode="false"
          android:onClick="setDate"
-         android:hint="@string/birthdate_editView"
+         android:hint="@string/birthday_editView"
          android:layout_marginBottom="30dp"/>
 
-     <Button
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        android:id="@+id/email"
+        android:hint="@string/email_user_editView"
+        android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:id="@+id/btn_saving_date"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textSize="20sp"
-        android:id="@+id/btn_saving_date"
-        android:text="@string/save_text" />
+        android:onClick="saveClientDataOnClick"
+        android:text="@string/save_text"
+        android:textSize="20sp" />
 
      <Button
         android:layout_width="match_parent"
@@ -52,7 +65,7 @@
         android:textSize="20sp"
         android:id="@+id/btn_exit"
         android:backgroundTint="@color/cardview_dark_background"
-        android:text="@string/exit_text"
+        android:text="@string/menu_exit_text"
         android:layout_marginTop="30dp"/>
 
 </LinearLayout>
