@@ -21,6 +21,12 @@ public class PreferenceManager{
         sharedPref = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE);
     }
 
+    public void deleteAllPreferences(){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.commit();
+    }
+
     public void saveToken(String value) {
         saveValue(TOKEN, value);
     }
