@@ -193,8 +193,9 @@ public class AuthorizationActivity extends BaseClientActivity {
         clientViewModel.clientModel.observe(this, new Observer<ClientModel>() {
             @Override
             public void onChanged(ClientModel client) {
-                if (client != null)
+                if (client != null) {
                     prefs.saveClientModel(client);
+                }
             }
         });
         makeClientApiCall(clientId, token);
