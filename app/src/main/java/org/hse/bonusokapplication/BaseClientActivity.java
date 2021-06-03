@@ -28,6 +28,8 @@ public class BaseClientActivity extends AppCompatActivity {
 
     protected ClientViewModel clientViewModel;
     protected PreferenceManager prefs;
+    public static final String CLIENT_ID = "client_id";
+    private static int clientId;
     //protected ClientRepository clientRepository;
 
     @Override
@@ -37,7 +39,7 @@ public class BaseClientActivity extends AppCompatActivity {
         clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
         prefs = new PreferenceManager(this);
         //clientRepository = ClientRepository.getInstance();
-
+        //clientId = (int)getIntent().getExtras().get(CLIENT_ID);
     }
 
     public boolean checkPhoneNumber(String phone){ return phone.contains("_") ? false : true; }
@@ -134,6 +136,8 @@ public class BaseClientActivity extends AppCompatActivity {
 
     protected void showProfile() {
         Intent intent = new Intent(this, MenuActivity.class);
+        int clientId = prefs.getClientModel().getId();
+        intent.putExtra(MenuActivity.CLIENT_ID, clientId);
         startActivity(intent);
     }
 }

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             clientId = prefs.getClientModel().getId();
             intent.putExtra(MenuActivity.CLIENT_ID, clientId);
             startActivity(intent);
+            return;
         }
 
         View registration_btn= findViewById(R.id.btn_registration);
