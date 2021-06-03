@@ -2,20 +2,27 @@ package org.hse.bonusokapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 
-public class ConfirmationActivity extends AppCompatActivity {
+import org.hse.bonusokapplication.Models.DeviceModel;
+import org.w3c.dom.Text;
+
+public class ConfirmationActivity extends BaseClientActivity {
+
+    private PreferenceManager prefs;
+    EditText code_input;
+    Button enter2_profile_btn;
+    private String phone_number, sms_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,75 +32,44 @@ public class ConfirmationActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        EditText sms_text = findViewById(R.id.sms);
-        int maxLength = 4;
-        sms_text.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+        enter2_profile_btn = findViewById(R.id.btn_enter2_profile);
+        code_input = findViewById(R.id.code_input);
+        enter2_profile_btn.setEnabled(false);
 
-         View  enter1_profile_btn = findViewById(R.id.btn_enter1_profile);
-            enter1_profile_btn.setEnabled(false);
+        prefs = new PreferenceManager(this);
+        phone_number = prefs.getPhoneNumber();
 
-
-              sms_text.addTextChangedListener(new TextWatcher() {
-
-                   public void afterTextChanged(Editable s) {
-                   }
-
-                   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                   }
-
-                   public void onTextChanged(CharSequence s, int start,
-                                             int before, int count) {
-                       if (sms_text.getText().length() == 4 ) {
-                           enter1_profile_btn.setEnabled(true);
-                           enter1_profile_btn.setOnClickListener(new View.OnClickListener() {
-                         @Override
-                         public void onClick(View v) {
-                         showProfile();
-                        }});
-                       }
-                   }
-               });
-
-        TextView mTimer;
-
-        Boolean hasTimerFinished = false;
-
-        mTimer = (TextView) findViewById(R.id.send_code);
-
-        mTimer.setOnClickListener(new View.OnClickListener() {
+        code_input.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                if (hasTimerFinished) {
-                    // Повторный запрос
-                }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Проверям длину смс-кода
+                sms_code = code_input.getText().toString();
+                if (checkCode(sms_code)) enter2_profile_btn.setEnabled(true);
+                else enter2_profile_btn.setEnabled(false);
             }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
         });
-        ConfirmationActivity context = this;
-
-        //Создаем таймер обратного отсчета на 20 секунд с шагом отсчета
-        //в 1 секунду (задаем значения в миллисекундах):
-        new CountDownTimer(20000, 1000) {
-
-            //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
-            public void onTick(long millisUntilFinished) {
-                mTimer.setText("Осталось: "
-                        + millisUntilFinished / 1000);
-            }
-
-            //Задаем действия после завершения отсчета (высвечиваем надпись "Бабах!"):
-            public void onFinish() {
-                mTimer.setText("Отправить повторно");
-                mTimer.setTextColor(ContextCompat.getColor(context, R.color.link));
-                mTimer.setClickable(true);
-                mTimer.setFocusable(true);
-            }
-        }
-                .start();
     }
 
-    private void showProfile() {
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
+    public void enterToProfileOnClick(View view){
+        observeAnyChangeAboutToken();
+        makeTokenApiCall(phone_number, sms_code);
+    }
+
+    private void observeAnyChangeAboutToken(){
+        clientViewModel.deviceModel.observe(this, new Observer<DeviceModel>() {
+            @Override
+            public void onChanged(DeviceModel device) {
+                if (device.getToken() == null) return;
+                prefs.saveToken(device.getToken());
+                showProfile();
+            }
+        });
     }
 
     @Override
@@ -103,7 +79,6 @@ public class ConfirmationActivity extends AppCompatActivity {
                 this.finish();
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
-        }
+                return super.onOptionsItemSelected(item); }
     }
 }

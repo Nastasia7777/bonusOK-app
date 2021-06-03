@@ -8,16 +8,21 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import org.hse.bonusokapplication.ViewModels.PromoListViewModel;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DiscountActivity extends AppCompatActivity {
+public class DiscountActivity extends AppCompatActivity{
 
     String tag = "DiscountActivity";
     private String imageFilePath;
+
+
+    private PromoListViewModel promoListViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +32,11 @@ public class DiscountActivity extends AppCompatActivity {
         //Если есть доступ к Интернету, то обновить акции
 
         //Если нет доступа, то загрузить акции из кэша
-
     }
 
-    private void getImageForSaving(ImageView imageView) {
+
+    private void getImageForSaving(ImageView imageView)
+    {
         Glide.with(DiscountActivity.this).load("https://sever-press.ru/wp-content/uploads/2019/01/11012019_coffe.jpg").into(imageView);
         try {
             saveImageToCash(imageView);
@@ -51,8 +57,10 @@ public class DiscountActivity extends AppCompatActivity {
     }
 
     private void loadImageFromCash(ImageView img) {
-        if (imageFilePath != null) {
+        if (imageFilePath != null){
             Glide.with(this).load(imageFilePath).into(img);
         }
     }
+
+
 }

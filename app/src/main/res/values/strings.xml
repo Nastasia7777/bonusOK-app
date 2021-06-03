@@ -6,7 +6,7 @@
     <string name="reg1_text">Введите свой номер телефона</string>
     <string name="reg2_text">К которому будет привязана ваша бонусная карта</string>
     <string name="reg3_text">Номер телефона:</string>
-    <string name="phone_editView">+7( )</string>
+    <string name="phone_editView">__________</string>
     <string name="sms_code_text">Отправить СМС-код</string>
     <string name="confirm_login_text">Мы отправили СМС-код, чтобы вы подтвердили свой номер телефона</string>
     <string name="sms_password_editView">SMS-пароль</string>
@@ -47,4 +47,16 @@
     <string name="menu_profile_text">Профиль</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //AuthorizationActivity
+    <string name="input_phone_number">Введите номер телефона</string>
+    <string name="user_is_unregistered">Пользователь с таким номером не зарегистрирован</string>
+    <string name="input_sms_code">Введите код из смс</string>
+    <string name="invalid_code">Код неверный</string>
+    <string name="login_error">Ошибка входа</string>
+
+    //RegistrationActivity
+    <string name="invalid_phone_number">Некорректный номер телефона</string>
+    <string name="user_already_exist">Данный номер уже зарегистрирован</string>
+
 </resources>
