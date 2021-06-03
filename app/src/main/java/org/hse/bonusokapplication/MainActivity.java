@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         //проверка сохранренного токена. Если есть, то открываем профиль
         prefs = new PreferenceManager(this);
-        //prefs.deleteAllPreferences();
         String s = prefs.getToken();
         if (prefs.getToken() != "") {
             Intent intent = new Intent(this, MenuActivity.class);

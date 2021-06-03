@@ -13,7 +13,7 @@ public class ClientModel {
     private String surname;
     private String name;
     private String email;
-    private Date birthday;
+    private Date birthdate;
     private int cardId;
 
     public ClientModel(int id, String phone, String surname, String name, String email, Date birthday, int cardId) {
@@ -22,7 +22,7 @@ public class ClientModel {
         this.surname = surname;
         this.name = name;
         this.email = email;
-        this.birthday = birthday;
+        this.birthdate = birthday;
         this.cardId = cardId;
     }
 
@@ -49,11 +49,28 @@ public class ClientModel {
         return email;
     }
 
-    public Date getBirthdate() {
-        return birthday;
+    public Date getBirthday() {
+        return birthdate;
     }
 
     public int getCardId() {
         return cardId;
+    }
+
+    // Setters
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setBirthday(Date date) {
+        this.birthdate = date;
     }
 }
