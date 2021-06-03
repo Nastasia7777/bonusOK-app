@@ -19,16 +19,23 @@
     <EditText
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:inputType="phone"
+         android:inputType="textPersonName"
          android:textSize="20sp"
+         android:id="@+id/name"
          android:hint="@string/name_user_editView"
          android:layout_marginBottom="30dp"/>
 
     <EditText
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:inputType="phone"
+         android:inputType="datetime"
          android:textSize="20sp"
+         android:id="@+id/date"
+         android:clickable="false"
+         android:cursorVisible="false"
+         android:focusable="false"
+         android:focusableInTouchMode="false"
+         android:onClick="setDate"
          android:hint="@string/birthdate_editView"
          android:layout_marginBottom="30dp"/>
 
@@ -44,7 +51,8 @@
         android:layout_height="60dp"
         android:textSize="20sp"
         android:id="@+id/btn_exit"
+        android:backgroundTint="@color/cardview_dark_background"
         android:text="@string/exit_text"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="30dp"/>
 
 </LinearLayout>

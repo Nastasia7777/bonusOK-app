@@ -6,25 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="enterToProfileOnClick"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
     android:paddingTop="30dp"
+    android:paddingLeft="20dp"
     android:paddingRight="20dp"
+    android:orientation="vertical"
     tools:context=".AuthorizationActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:text="@string/auth1_text"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:text="@string/auth2_text"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"/>
 
     <br.com.sapereaude.maskedEditText.MaskedEditText
         android:id="@+id/phone_input"
