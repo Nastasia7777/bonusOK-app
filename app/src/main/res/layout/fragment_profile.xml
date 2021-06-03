@@ -19,6 +19,7 @@
         android:paddingRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
        <TextView
@@ -40,7 +41,7 @@
            android:layout_height="wrap_content"
            android:text="@string/number_bonus_text"
            android:textSize="24sp"
-           android:layout_gravity="center"
+           android:gravity="center"
            android:layout_marginBottom="10dp"/>
 
         <TextView
@@ -48,7 +49,7 @@
           android:layout_height="wrap_content"
           android:text="@string/number_bonuses_text"
           android:layout_gravity="center"
-          android:textSize="30dp"
+          android:textSize="40dp"
           android:layout_marginBottom="10dp"/>
 
          <TextView
@@ -57,16 +58,16 @@
           android:text="@string/number_user_text"
           android:layout_gravity="center"
           android:textSize="20sp"
-          android:layout_marginBottom="10dp"/>
+          android:layout_marginBottom="20dp"/>
 
         <Button
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           android:textSize="18sp"
-           android:id="@+id/btn_edit_profile"
-           android:text="@string/edit_inform"
-           android:layout_marginBottom="40dp"/>
+            android:id="@+id/btn_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="40dp"
+            android:text="@string/edit_inform"
+            android:textSize="18sp" />
     </LinearLayout>
  </ScrollView>
 </RelativeLayout>

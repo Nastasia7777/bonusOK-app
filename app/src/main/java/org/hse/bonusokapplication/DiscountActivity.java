@@ -27,10 +27,10 @@ public class DiscountActivity extends AppCompatActivity {
         //Если есть доступ к Интернету, то обновить акции
 
         //Если нет доступа, то загрузить акции из кэша
+
     }
 
-    private void getImageForSaving(ImageView imageView)
-    {
+    private void getImageForSaving(ImageView imageView) {
         Glide.with(DiscountActivity.this).load("https://sever-press.ru/wp-content/uploads/2019/01/11012019_coffe.jpg").into(imageView);
         try {
             saveImageToCash(imageView);
@@ -51,7 +51,7 @@ public class DiscountActivity extends AppCompatActivity {
     }
 
     private void loadImageFromCash(ImageView img) {
-        if (imageFilePath != null){
+        if (imageFilePath != null) {
             Glide.with(this).load(imageFilePath).into(img);
         }
     }

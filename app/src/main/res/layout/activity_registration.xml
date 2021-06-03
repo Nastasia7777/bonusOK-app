@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:mask="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +10,8 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:orientation="vertical"
-    tools:context=".RegistrationActivity">
+    tools:context=".RegistrationActivity"
+    tools:ignore="ExtraText">
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,13 +34,25 @@
         android:textSize="20sp"
         android:layout_marginBottom="10dp"/>
 
-     <EditText
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:inputType="phone"
-         android:textSize="20sp"
-         android:hint="@string/phone_editView"
-         android:layout_marginBottom="30dp"/>
+<!--     <EditText-->
+<!--         android:layout_width="match_parent"-->
+<!--         android:layout_height="wrap_content"-->
+<!--         android:inputType="phone"-->
+<!--         android:textSize="20sp"-->
+<!--         android:hint="@string/phone_editView"-->
+<!--         android:layout_marginBottom="30dp"/>-->
+
+    <br.com.sapereaude.maskedEditText.MaskedEditText
+        android:id="@+id/phone_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:typeface="monospace"
+        mask:allowed_chars="0123456789"
+        mask:mask="+7(###)###-##-##"
+        android:hint="9000000000"
+        app:keep_hint="true"
+    />
 
      <Button
         android:layout_width="match_parent"
