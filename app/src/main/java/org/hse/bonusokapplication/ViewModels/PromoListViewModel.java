@@ -30,8 +30,8 @@ public class PromoListViewModel extends ViewModel {
     }
 
 
-    public void searchPromoApi(){
-        promoList.postValue(promoRepository.makePromoApiCall());
+    public void searchPromoApi(int clientId){
+        promoList.postValue(promoRepository.makePromoApiCall(clientId));
     }
 
 }

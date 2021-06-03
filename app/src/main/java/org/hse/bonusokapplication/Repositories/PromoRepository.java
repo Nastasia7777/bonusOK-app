@@ -33,10 +33,10 @@ public class PromoRepository {
 
     private static List<PromoModel> promoList = new ArrayList<>();
 
-    public List<PromoModel> makePromoApiCall(){
+    public List<PromoModel> makePromoApiCall(int clientId){
 
         PromoApi promoApi = Service.getPromoApi();
-        Call<List<PromoModel>> responseCall = promoApi.searchPromos(5);
+        Call<List<PromoModel>> responseCall = promoApi.searchPromos(clientId);
         responseCall.enqueue(new Callback<List<PromoModel>>() {
             @Override
             public void onResponse(Call<List<PromoModel>> call, Response<List<PromoModel>> response) {

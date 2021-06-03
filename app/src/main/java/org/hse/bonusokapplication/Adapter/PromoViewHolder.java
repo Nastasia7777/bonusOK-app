@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +12,10 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import org.hse.bonusokapplication.AuthorizationActivity;
+import org.hse.bonusokapplication.DiscountActivity;
 import org.hse.bonusokapplication.DiscountDescription;
 import org.hse.bonusokapplication.Models.PromoModel;
 import org.hse.bonusokapplication.R;
@@ -32,6 +36,18 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
         // set photo
     }
 
+    private void loadImageFromCash(String imageFilePath) {
+        if (imageFilePath != null){
+            Glide.with(context).load(imageFilePath).into(promoImage);
+        } else
+            try{
+                Glide.with(context).load("https://sever-press.ru/wp-content/uploads/2019/01/11012019_coffe.jpg").into(promoImage);
+            } catch (Exception e){
+                Log.e("glide","exception", e);
+            }
+
+    }
+
     private PromoModel currentPromo;
 
     public PromoViewHolder(View itemView, Context context) {
@@ -47,6 +63,7 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
         name.setText(data.getName()+" c "+timeFormat(data.getStartDate())+" по "+timeFormat(data.getEndDate()));
         description.setText(data.getDescription());
         currentPromo = data;
+        Glide.with(context).load("https://sever-press.ru/wp-content/uploads/2019/01/11012019_coffe.jpg").into(promoImage);
     }
 
     private String timeFormat(Date date){

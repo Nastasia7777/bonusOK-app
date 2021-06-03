@@ -12,14 +12,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MenuActivity extends AppCompatActivity {
 
+      public static final String CLIENT_ID = "client_id";
+      private static int clientId;
+
       private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            clientId = (int)getIntent().getExtras().get(CLIENT_ID);
+            Bundle bundle = new Bundle();
+            bundle.putInt(CLIENT_ID, clientId);
+
             switch (item.getItemId()) {
                 case R.id.navigation_discount:
-                    loadFragment(DiscountFragment.newInstance());
+                    DiscountFragment fragment = new DiscountFragment();
+                    fragment.setArguments(bundle);
+                    loadFragment(fragment);
                     return true;
                 case R.id.navigation_profile:
                     loadFragment(ProfileFragment.newInstance());
