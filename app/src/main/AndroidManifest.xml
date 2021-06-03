@@ -49,6 +49,14 @@
             android:name=".RegistrationActivity"
             android:label="@string/registration_activity_title">
         </activity>
+
+        <service
+            android:name="org.hse.bonusokapplication.Push.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -1,0 +1,79 @@
+package org.hse.bonusokapplication.Push;
+
+import android.app.Application;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+import org.hse.bonusokapplication.DiscountActivity;
+import org.hse.bonusokapplication.NotificationsManager;
+import org.hse.bonusokapplication.PreferenceManager;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    private static final String TAG = "MyFirebaseMsgService";
+    private PreferenceManager pref;
+
+    @Override
+    public void onNewToken(String token) {
+        super.onNewToken(token);
+        Log.d("Refreshed token:",token);
+        pref = new PreferenceManager(getApplicationContext());
+        pref.saveDeviceToken(token);
+
+    }
+
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData());
+                sendPushNotification(json);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getMessage());
+            }
+        }
+    }
+
+    //this method will display the notification
+    //We are passing the JSONObject that is received from
+    //firebase cloud messaging
+    private void sendPushNotification(JSONObject json) {
+        //optionally we can display the json into log
+        Log.d(TAG, "Notification JSON " + json.toString());
+        try {
+            //getting the json data
+            //JSONObject data = json.getJSONObject("data");
+
+            //parsing json data
+            String title = json.getString("title");
+            String message = json.getString("message");
+            //String imageUrl = data.getString("image");
+
+            //creating MyNotificationManager object
+            NotificationsManager mNotificationManager = new NotificationsManager(getApplicationContext());
+
+            //creating an intent for the notification
+            Intent intent = new Intent(getApplicationContext(), DiscountActivity.class);
+
+            //if there is no image
+            //if(imageUrl.equals("null")){
+                //displaying small notification
+                mNotificationManager.showSmallNotification(title, message, intent);
+           // }else{
+                //if there is an image
+                //displaying a big notification
+            //    mNotificationManager.showBigNotification(title, message, imageUrl, intent);
+           // }
+        } catch (JSONException e) {
+            Log.e(TAG, "Json Exception: " + e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
+    }
+}

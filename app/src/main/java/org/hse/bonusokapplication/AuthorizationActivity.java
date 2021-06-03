@@ -185,6 +185,7 @@ public class AuthorizationActivity extends BaseClientActivity {
                 prefs.saveToken(device.getToken());
                 getClientData(device.getUserId(), device.getToken());
                 getClientCard(device.getUserId(), device.getToken());
+                sendDeviceToken(device.getUserId());
             }
         });
     }

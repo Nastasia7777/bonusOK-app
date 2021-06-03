@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import org.hse.bonusokapplication.PreferenceManager;
 import org.hse.bonusokapplication.Utils.ClientApi;
 import org.hse.bonusokapplication.Utils.Credentials;
+import org.hse.bonusokapplication.Utils.FirebaseMessagingApi;
 import org.hse.bonusokapplication.Utils.PromoApi;
 import org.hse.bonusokapplication.ViewModels.ClientViewModel;
 
@@ -61,9 +62,11 @@ public class Service {
 
     private static PromoApi promoApi = retrofit.create(PromoApi.class);
     private static ClientApi clientApi = retrofit.create(ClientApi.class);
+    private static FirebaseMessagingApi firebaseMessagingApi = retrofit.create(FirebaseMessagingApi.class);
 
     public static PromoApi getPromoApi(){
         return promoApi;
     }
     public static  ClientApi getClientApi() { return clientApi; }
+    public static FirebaseMessagingApi getFirebaseMessagingApi() {return firebaseMessagingApi;}
 }

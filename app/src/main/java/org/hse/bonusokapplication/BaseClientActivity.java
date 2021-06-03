@@ -5,14 +5,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import org.hse.bonusokapplication.Models.CardModel;
 import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.Models.DeviceModel;
+import org.hse.bonusokapplication.Push.DeviceIdSender;
 import org.hse.bonusokapplication.Request.Service;
 import org.hse.bonusokapplication.Utils.ClientApi;
 import org.hse.bonusokapplication.ViewModels.ClientViewModel;
@@ -135,5 +141,27 @@ public class BaseClientActivity extends AppCompatActivity {
     protected void showProfile() {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
+    }
+
+    protected void sendDeviceToken(int clientId){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Device token", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.d("Device token", token);
+                        prefs.saveDeviceToken(token);
+                        DeviceIdSender deviceIdSender = new DeviceIdSender();
+                        deviceIdSender.saveDevice(clientId, token);
+                    }
+                });
     }
 }
