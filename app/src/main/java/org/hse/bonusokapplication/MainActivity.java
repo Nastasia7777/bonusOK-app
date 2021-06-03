@@ -24,11 +24,21 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private PromoListViewModel promoListViewModel;
+    private PreferenceManager prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //проверка сохранренного токена. Если есть, то открываем профиль
+        prefs = new PreferenceManager(this);
+        //prefs.deleteAllPreferences();
+        String s = prefs.getToken();
+        if (prefs.getToken() != "") {
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        }
 
         View registration_btn= findViewById(R.id.btn_registration);
         View enter_btn = findViewById(R.id.btn_enter);
