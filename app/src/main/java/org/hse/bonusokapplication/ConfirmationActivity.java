@@ -113,6 +113,7 @@ public class ConfirmationActivity extends BaseClientActivity {
             public void onChanged(DeviceModel device) {
                 if (device.getToken() == null) return;
                 prefs.saveToken(device.getToken());
+                sendDeviceToken(device.getUserId());
                 showProfile();
             }
         });

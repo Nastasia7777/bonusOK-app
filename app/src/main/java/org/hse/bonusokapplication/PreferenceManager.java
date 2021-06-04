@@ -14,6 +14,7 @@ public class PreferenceManager{
     private final static String PHONE_NUMBER = "phone";
     private final static String CLIENT = "client";
     private final static String CARD = "card";
+    private final static String DEVICE_TOKEN = "device_token";
 
     private final SharedPreferences sharedPref;
 
@@ -59,6 +60,10 @@ public class PreferenceManager{
         return getCard(CARD, "");
     }
 
+    public void saveDeviceToken(String value) {saveDeviceToken(DEVICE_TOKEN, value);}
+
+    public String getDeviceToken(){return getDeviceToken(DEVICE_TOKEN, "");}
+
     private void saveValue(String key, String value){
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);
@@ -87,5 +92,16 @@ public class PreferenceManager{
         Gson gson = new Gson();
         String json = sharedPref.getString(key, defaultValue);
         return gson.fromJson(json, CardModel.class);
+    }
+
+    private void saveDeviceToken(String key, String token){
+        SharedPreferences.Editor prefsEditor = sharedPref.edit();
+        prefsEditor.putString(key, token);
+        prefsEditor.commit();
+    }
+
+    private String getDeviceToken(String key, String defaultValue){
+        String token = sharedPref.getString(key, defaultValue);
+        return token;
     }
 }
