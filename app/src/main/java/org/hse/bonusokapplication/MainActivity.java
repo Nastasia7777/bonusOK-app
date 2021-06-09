@@ -2,6 +2,7 @@ package org.hse.bonusokapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.View;
 
@@ -21,24 +22,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends RootActivity {
 
     private PromoListViewModel promoListViewModel;
     private PreferenceManager prefs;
     private int clientId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //проверка сохранренного токена. Если есть, то открываем профиль
         prefs = new PreferenceManager(this);
+        prefs.deleteAllPreferences();
         String s = prefs.getToken();
         if (prefs.getToken() != "") {
             Intent intent = new Intent(this, MenuActivity.class);
             clientId = prefs.getClientModel().getId();
             intent.putExtra(MenuActivity.CLIENT_ID, clientId);
+            this.finish();
             startActivity(intent);
             return;
         }
@@ -66,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
     private void showRegistration() {
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
+        //this.finish();
     }
 
     private void showEnter() {
         Intent intent = new Intent(this, AuthorizationActivity.class);
         startActivity(intent);
+        //this.finish();
     }
 
 

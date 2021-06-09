@@ -30,7 +30,7 @@ public class ConfirmationActivity extends BaseClientActivity {
     private String phone_number, sms_code;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
         ActionBar actionBar = getSupportActionBar();
@@ -126,5 +126,10 @@ public class ConfirmationActivity extends BaseClientActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item); }
+    }
+
+    protected void showProfile(){
+        super.showProfile();
+        this.finish();
     }
 }

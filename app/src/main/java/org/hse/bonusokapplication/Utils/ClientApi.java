@@ -1,3 +1,4 @@
+
 package org.hse.bonusokapplication.Utils;
 
 import com.google.gson.Gson;

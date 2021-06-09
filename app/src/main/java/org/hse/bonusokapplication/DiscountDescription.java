@@ -1,3 +1,4 @@
+
 package org.hse.bonusokapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DiscountDescription extends AppCompatActivity {
+public class DiscountDescription extends RootActivity {
 
     private  PromoModel promo;
     public static final String PROMO_NAME = "promo_name";
@@ -31,7 +32,7 @@ public class DiscountDescription extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discount_description);
 

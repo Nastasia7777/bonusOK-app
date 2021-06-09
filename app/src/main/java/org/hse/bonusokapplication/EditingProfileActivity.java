@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditingProfileActivity extends AppCompatActivity {
+public class EditingProfileActivity extends RootActivity {
 
     EditText name_text, surname_text, birthday_text, email_text;
     Button save_button, exit_button;
@@ -42,7 +42,7 @@ public class EditingProfileActivity extends AppCompatActivity {
     private ClientModel client;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editing_profile);
         ActionBar actionBar = getSupportActionBar();
@@ -164,12 +164,14 @@ public class EditingProfileActivity extends AppCompatActivity {
     }
 
      private void showProfile() {
-         Intent intent = new Intent(this, ProfileActivity.class);
+         Intent intent = new Intent(this, ProfileFragment.class);
          startActivity(intent);
+         this.finish();
      }
 
       private void showMain() {
          Intent intent = new Intent(this, MainActivity.class);
+          finishAll();
          startActivity(intent);
      }
 

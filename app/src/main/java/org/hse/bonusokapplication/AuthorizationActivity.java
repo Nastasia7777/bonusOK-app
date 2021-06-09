@@ -51,7 +51,7 @@ public class AuthorizationActivity extends BaseClientActivity {
     private String TAG = "AuthorizationActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
         ActionBar actionBar = getSupportActionBar();
@@ -215,5 +215,10 @@ public class AuthorizationActivity extends BaseClientActivity {
             }
         });
         makeClientCardApiCall(clientId, token);
+    }
+
+    protected void showProfile(){
+        super.showProfile();
+        this.finish();
     }
 }

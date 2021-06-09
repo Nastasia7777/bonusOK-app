@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BaseClientActivity extends AppCompatActivity {
+public class BaseClientActivity extends RootActivity {
 
     protected ClientViewModel clientViewModel;
     protected PreferenceManager prefs;
@@ -33,7 +33,7 @@ public class BaseClientActivity extends AppCompatActivity {
     //protected ClientRepository clientRepository;
 
     @Override
-    protected void onCreate (@Nullable Bundle savedInstanceState) {
+    public void onCreate (@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         clientViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
@@ -138,6 +138,7 @@ public class BaseClientActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MenuActivity.class);
         int clientId = prefs.getClientModel().getId();
         intent.putExtra(MenuActivity.CLIENT_ID, clientId);
+        finishActivity("MainActivity");
         startActivity(intent);
     }
 }
