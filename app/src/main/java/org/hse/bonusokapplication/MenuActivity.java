@@ -21,9 +21,9 @@ public class MenuActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            clientId = (int)getIntent().getExtras().get(CLIENT_ID);
             Bundle bundle = new Bundle();
             bundle.putInt(CLIENT_ID, clientId);
+
 
             switch (item.getItemId()) {
                 case R.id.navigation_discount:
@@ -34,6 +34,9 @@ public class MenuActivity extends AppCompatActivity {
                 case R.id.navigation_profile:
                     loadFragment(ProfileFragment.newInstance());
                     return true;
+                case R.id.admin_profile:
+                    loadFragment(AdminFragment.newInstance());
+                    return  true;
                 case R.id.navigation_about:
                     loadFragment(AboutFragment.newInstance());
                     return true;
@@ -56,6 +59,10 @@ public class MenuActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_profile);
+        clientId = (int)getIntent().getExtras().get(CLIENT_ID);
+
+        Boolean isAdmin = clientId == 0;
+        navigation.getMenu().findItem(R.id.admin_profile).setVisible(isAdmin);
     }
 
 }

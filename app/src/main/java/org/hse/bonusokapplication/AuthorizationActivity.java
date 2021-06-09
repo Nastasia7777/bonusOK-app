@@ -2,6 +2,7 @@ package org.hse.bonusokapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -46,6 +49,7 @@ public class AuthorizationActivity extends BaseClientActivity {
     private Button get_code_btn, enter2_profile_btn;
     private EditText phone_input_text, code_input_text;
     private String phone_number, sms_code;
+    TextView mTimer;
     //private Boolean user_can_enter = false;
 
     private String TAG = "AuthorizationActivity";
@@ -98,6 +102,46 @@ public class AuthorizationActivity extends BaseClientActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
+
+        boolean hasTimerFinished = false;
+        mTimer = findViewById(R.id.resend_code);
+
+        mTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasTimerFinished) {
+                    // Повторный запрос
+                    startResendTimer();
+                }
+            }
+        });
+    }
+
+    public void startResendTimer ()
+    {
+        AuthorizationActivity context = this;
+
+        mTimer.setClickable(false);
+        mTimer.setFocusable(false);
+        //Создаем таймер обратного отсчета на 20 секунд с шагом отсчета
+        //в 1 секунду (задаем значения в миллисекундах):
+        new CountDownTimer(20000, 1000) {
+
+            //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
+            public void onTick(long millisUntilFinished) {
+                mTimer.setText("Осталось: "
+                        + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                mTimer.setText("Отправить повторно");
+                mTimer.setTextColor(ContextCompat.getColor(context, R.color.link));
+                mTimer.setClickable(true);
+                mTimer.setFocusable(true);
+
+            }
+        }
+                .start();
     }
 
     @Override
@@ -141,6 +185,7 @@ public class AuthorizationActivity extends BaseClientActivity {
     //Отправление смс-кода пользователю
     public void makeAuthCodeApiCall (String phone)
     {
+       startResendTimer();
         ClientApi clientApi = Service.getClientApi();
         retrofit2.Call<Void> responseCall = clientApi.getAuthCode(phone);
         responseCall.enqueue(new Callback<Void>() {

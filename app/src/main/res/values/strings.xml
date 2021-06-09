@@ -62,5 +62,6 @@
     <string name="name_user_editView">Имя пользователя</string>
     <string name="surname_user_editView">Фамилия пользователя</string>
     <string name="email_user_editView">Электронная почта</string>
+    <string name="menu_admin_text">Админ</string>
 
 </resources>

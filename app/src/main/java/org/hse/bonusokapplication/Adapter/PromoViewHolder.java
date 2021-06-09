@@ -3,19 +3,15 @@ package org.hse.bonusokapplication.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import org.hse.bonusokapplication.AuthorizationActivity;
-import org.hse.bonusokapplication.DiscountActivity;
 import org.hse.bonusokapplication.DiscountDescription;
 import org.hse.bonusokapplication.Models.PromoModel;
 import org.hse.bonusokapplication.R;

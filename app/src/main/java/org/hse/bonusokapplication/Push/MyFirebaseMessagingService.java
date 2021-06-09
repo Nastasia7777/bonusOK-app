@@ -1,14 +1,11 @@
 package org.hse.bonusokapplication.Push;
 
-import android.app.Application;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.hse.bonusokapplication.DiscountActivity;
 import org.hse.bonusokapplication.NotificationsManager;
 import org.hse.bonusokapplication.PreferenceManager;
 import org.json.JSONException;
