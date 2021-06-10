@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends RootActivity {
 
     private PromoListViewModel promoListViewModel;
     private PreferenceManager prefs;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MenuActivity.class);
             clientId = prefs.getClientModel().getId();
             intent.putExtra(MenuActivity.CLIENT_ID, clientId);
+            this.finish();
             startActivity(intent);
             return;
         }

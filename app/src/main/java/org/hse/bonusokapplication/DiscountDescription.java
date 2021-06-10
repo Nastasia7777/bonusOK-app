@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DiscountDescription extends AppCompatActivity {
+public class DiscountDescription extends RootActivity {
 
     private  PromoModel promo;
     public static final String PROMO_NAME = "promo_name";

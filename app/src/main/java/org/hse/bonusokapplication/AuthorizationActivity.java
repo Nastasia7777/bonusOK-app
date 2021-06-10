@@ -262,4 +262,9 @@ public class AuthorizationActivity extends BaseClientActivity {
         });
         makeClientCardApiCall(clientId, token);
     }
+
+    protected void showProfile(){
+        super.showProfile();
+        this.finish();
+    }
 }

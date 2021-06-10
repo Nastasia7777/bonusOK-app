@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.hse.bonusokapplication.DiscountFragment;
 import org.hse.bonusokapplication.NotificationsManager;
 import org.hse.bonusokapplication.PreferenceManager;
 import org.json.JSONException;
@@ -56,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationsManager mNotificationManager = new NotificationsManager(getApplicationContext());
 
             //creating an intent for the notification
-            Intent intent = new Intent(getApplicationContext(), DiscountActivity.class);
+            Intent intent = new Intent(getApplicationContext(), DiscountFragment.class);
 
             //if there is no image
             //if(imageUrl.equals("null")){

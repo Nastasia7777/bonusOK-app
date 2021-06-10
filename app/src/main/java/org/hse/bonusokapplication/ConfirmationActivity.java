@@ -128,4 +128,10 @@ public class ConfirmationActivity extends BaseClientActivity {
             default:
                 return super.onOptionsItemSelected(item); }
     }
+
+    protected void showProfile(){
+        super.showProfile();
+        finishActivity("RegistrationActivity");
+        this.finish();
+    }
 }
