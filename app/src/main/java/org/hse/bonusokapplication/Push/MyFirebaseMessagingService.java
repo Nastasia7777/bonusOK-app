@@ -3,6 +3,11 @@ package org.hse.bonusokapplication.Push;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -15,6 +20,12 @@ import org.json.JSONObject;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     private PreferenceManager pref;
+
+    private void saveToken(String token){
+
+        pref = new PreferenceManager(getApplicationContext());
+        pref.saveDeviceToken(token);
+    }
 
     @Override
     public void onNewToken(String token) {
@@ -45,13 +56,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //optionally we can display the json into log
         Log.d(TAG, "Notification JSON " + json.toString());
         try {
-            //getting the json data
-            //JSONObject data = json.getJSONObject("data");
-
             //parsing json data
             String title = json.getString("title");
             String message = json.getString("message");
-            //String imageUrl = data.getString("image");
 
             //creating MyNotificationManager object
             NotificationsManager mNotificationManager = new NotificationsManager(getApplicationContext());
@@ -59,19 +66,54 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //creating an intent for the notification
             Intent intent = new Intent(getApplicationContext(), DiscountFragment.class);
 
-            //if there is no image
-            //if(imageUrl.equals("null")){
-                //displaying small notification
-                mNotificationManager.showSmallNotification(title, message, intent);
-           // }else{
-                //if there is an image
-                //displaying a big notification
-            //    mNotificationManager.showBigNotification(title, message, imageUrl, intent);
-           // }
+            mNotificationManager.showSmallNotification(title, message, intent);
+
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
         }
+    }
+
+    public void sendDeviceToken(int clientId){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Device token", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.d("Device token", token);
+                        DeviceIdSender deviceIdSender = new DeviceIdSender();
+                        deviceIdSender.saveDevice(clientId, token);
+                    }
+                });
+    }
+
+    public void deleteDeviceToken(int clientId){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Device token", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.d("Device token", token);
+                        DeviceIdSender deviceIdSender = new DeviceIdSender();
+                        deviceIdSender.deleteDevice(clientId, token);
+                    }
+                });
     }
 }
