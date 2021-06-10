@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditingProfileActivity extends AppCompatActivity {
+public class EditingProfileActivity extends RootActivity {
 
     EditText name_text, surname_text, birthday_text, email_text;
     Button save_button, exit_button;
@@ -163,15 +163,17 @@ public class EditingProfileActivity extends AppCompatActivity {
         });
     }
 
-     private void showProfile() {
-         Intent intent = new Intent(this, ProfileActivity.class);
-         startActivity(intent);
-     }
+    private void showProfile() {
+        Intent intent = new Intent(this, ProfileFragment.class);
+        startActivity(intent);
+        this.finish();
+    }
 
-      private void showMain() {
-         Intent intent = new Intent(this, MainActivity.class);
-         startActivity(intent);
-     }
+    private void showMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        finishAll();
+        startActivity(intent);
+    }
 
      @Override
     public void onBackPressed() {
