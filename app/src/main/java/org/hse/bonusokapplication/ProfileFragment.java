@@ -58,18 +58,6 @@ public class ProfileFragment extends Fragment {
          startActivity(intent);
      }
 
-    private void createQr(String code){
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        try{
-            BitMatrix bitMatrix = multiFormatWriter.encode(code, BarcodeFormat.QR_CODE, 500, 500);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-            imageView.setImageBitmap(bitmap);
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,4 +76,6 @@ public class ProfileFragment extends Fragment {
         int res = cardModel.getBonusQuantity();
         return Integer.toString(res);
     }
+
+
 }

@@ -47,7 +47,7 @@ public class MainActivity extends RootActivity {
         View registration_btn= findViewById(R.id.btn_registration);
         View enter_btn = findViewById(R.id.btn_enter);
         promoListViewModel = ViewModelProviders.of(this).get(PromoListViewModel.class);
-        ObserveAnyChange();
+       // ObserveAnyChange();
 
         registration_btn.setOnClickListener(new View.OnClickListener() {
             @Override
