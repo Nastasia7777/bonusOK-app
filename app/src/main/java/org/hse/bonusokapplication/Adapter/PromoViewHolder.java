@@ -34,46 +34,23 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
     private TextView name;
     private TextView description;
 
-    private void loadPhoto(){
-        // set photo
-    }
 
-    private void loadImageFromCash(String imageFilePath) {
-        if (imageFilePath != null && imageFilePath.length()>0) {
+    public static Bitmap loadImageBitmap(String imageFilePath) {
+        try{
+            if (imageFilePath != null && imageFilePath.length()>0) {
 
-            // Вот тут декодировали и обрезали массив
-            byte[] imageByteArray = Base64.decode(imageFilePath, Base64.DEFAULT);
-            byte [] newImg = new byte[imageByteArray.length-3];
-            for(int i=0; i<newImg.length; i++) {
-                newImg[i] = imageByteArray[i + 3];
-            }
-
-            // Таким образом мы вставляем qr код, а здесь bmp null
-//            InputStream is = new ByteArrayInputStream(newImg);
-//            Bitmap bmp = BitmapFactory.decodeStream(is);
-//            promoImage.setImageBitmap(bmp);
-
-            // А вот тут ошибка
-            Log.d("GLIDE_TAG", "loadImageFromCash: "+newImg.getClass()+"  "+newImg.length);
-            Glide.with(context)
-                    .asBitmap()
-                    .load(newImg)
-                    .into(promoImage);
-
-        } else
-            try{
-                Log.d("GLIDE_TAG", "loadImageFromCash: TRY");
+                // Вот тут декодировали и обрезали массив
                 byte[] imageByteArray = Base64.decode(imageFilePath, Base64.DEFAULT);
-                Log.d("GLIDE_TAG", "loadImageFromCash: "+imageByteArray.getClass()+"  "+imageByteArray.length);
-                Glide.with(context)
-                        .asBitmap()
-                        .load(imageByteArray)
-                        .into(promoImage);
-                Log.d("glide","success");
-            } catch (Exception e){
-                Log.e("glide","exception", e);
-            }
 
+                // Таким образом мы вставляем qr код, а здесь bmp null
+                InputStream is = new ByteArrayInputStream(imageByteArray);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                return bmp;
+            } else return null;
+        } catch(Exception e){
+            Log.e("LOAD_IMAGE_BITMAP", "error: ", e);
+        }
+        return null;
     }
 
     private PromoModel currentPromo;
@@ -91,8 +68,8 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
         name.setText(data.getName()+" c "+timeFormat(data.getStartDate())+" по "+timeFormat(data.getEndDate()));
         description.setText(data.getDescription());
         currentPromo = data;
-        loadImageFromCash(data.getImage());
-        //Glide.with(context).load("https://sever-press.ru/wp-content/uploads/2019/01/11012019_coffe.jpg").into(promoImage);
+        if(loadImageBitmap(data.getImage())!=null)
+        promoImage.setImageBitmap(loadImageBitmap(data.getImage()));
     }
 
     private String timeFormat(Date date){
@@ -109,6 +86,7 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
         intent.putExtra(DiscountDescription.PROMO_DESCRIPTION, currentPromo.getDescription());
         intent.putExtra(DiscountDescription.PROMO_START_DATE, currentPromo.getStartDate());
         intent.putExtra(DiscountDescription.PROMO_END_DATE, currentPromo.getEndDate());
+        intent.putExtra(DiscountDescription.PROMO_IMAGE, currentPromo.getImage());
         activity.startActivity(intent);
     }
 }

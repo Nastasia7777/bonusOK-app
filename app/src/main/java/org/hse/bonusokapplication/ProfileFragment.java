@@ -7,7 +7,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +23,20 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import org.hse.bonusokapplication.Models.CardModel;
+import org.hse.bonusokapplication.Models.ClientModel;
+import org.hse.bonusokapplication.Models.PromoModel;
 import org.hse.bonusokapplication.ViewModels.CardViewModel;
+import org.hse.bonusokapplication.ViewModels.PromoListViewModel;
+
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
         ImageView imageView;
         TextView bonusQuantity;
     protected PreferenceManager prefs;
     protected CardModel cardModel;
-
+    private PromoListViewModel promoListViewModel;
+    private int clientId;
     public ProfileFragment() {
 
     }
@@ -42,11 +51,14 @@ public class ProfileFragment extends Fragment {
          View edit_profile_btn = view.findViewById(R.id.btn_edit_profile);
         prefs = new PreferenceManager(getActivity());
         cardModel = prefs.getCardModel();
+        ClientModel clientModel = prefs.getClientModel();
+        clientId = clientModel.getId();
         imageView = (ImageView)view.findViewById(R.id.qr);
         bonusQuantity = (TextView)view.findViewById(R.id.bonusQuantity);
         bonusQuantity.setText(getBonusQuantity());
         imageView.setImageBitmap(CardViewModel.createQrBitmap(getCardCode()));
-
+        promoListViewModel = ViewModelProviders.of(this).get(PromoListViewModel.class);
+        ObserveAnyChange();
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -77,5 +89,18 @@ public class ProfileFragment extends Fragment {
         return Integer.toString(res);
     }
 
-
+    private void ObserveAnyChange()
+    {
+        promoListViewModel.getPromoListObserver().observe(getActivity(), new Observer<List<PromoModel>>() {
+            @Override
+            public void onChanged(List<PromoModel> promoModels) {
+                // observing for any promo data change
+                if(promoModels!=null)
+                    for(PromoModel model: promoModels){
+                        Log.d("TAG", "onChanged: "+model.getDescription());
+                    }
+            }
+        });
+        promoListViewModel.searchPromoApi(clientId);
+    }
 }
