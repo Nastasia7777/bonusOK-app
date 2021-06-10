@@ -163,12 +163,6 @@ public class EditingProfileActivity extends RootActivity {
         });
     }
 
-    private void showProfile() {
-        Intent intent = new Intent(this, ProfileFragment.class);
-        startActivity(intent);
-        this.finish();
-    }
-
     private void showMain() {
         Intent intent = new Intent(this, MainActivity.class);
         finishAll();
