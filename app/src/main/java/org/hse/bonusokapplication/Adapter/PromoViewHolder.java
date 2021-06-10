@@ -3,6 +3,9 @@ package org.hse.bonusokapplication.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +19,10 @@ import org.hse.bonusokapplication.DiscountDescription;
 import org.hse.bonusokapplication.Models.PromoModel;
 import org.hse.bonusokapplication.R;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -28,20 +34,23 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
     private TextView name;
     private TextView description;
 
-    private void loadPhoto(){
-        // set photo
-    }
 
-    private void loadImageFromCash(String imageFilePath) {
-        if (imageFilePath != null){
-            Glide.with(context).load(imageFilePath).into(promoImage);
-        } else
-            try{
-                Glide.with(context).load("https://sever-press.ru/wp-content/uploads/2019/01/11012019_coffe.jpg").into(promoImage);
-            } catch (Exception e){
-                Log.e("glide","exception", e);
-            }
+    public static Bitmap loadImageBitmap(String imageFilePath) {
+        try{
+            if (imageFilePath != null && imageFilePath.length()>0) {
 
+                // Вот тут декодировали и обрезали массив
+                byte[] imageByteArray = Base64.decode(imageFilePath, Base64.DEFAULT);
+
+                // Таким образом мы вставляем qr код, а здесь bmp null
+                InputStream is = new ByteArrayInputStream(imageByteArray);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                return bmp;
+            } else return null;
+        } catch(Exception e){
+            Log.e("LOAD_IMAGE_BITMAP", "error: ", e);
+        }
+        return null;
     }
 
     private PromoModel currentPromo;
@@ -59,7 +68,8 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
         name.setText(data.getName()+" c "+timeFormat(data.getStartDate())+" по "+timeFormat(data.getEndDate()));
         description.setText(data.getDescription());
         currentPromo = data;
-        Glide.with(context).load("https://sever-press.ru/wp-content/uploads/2019/01/11012019_coffe.jpg").into(promoImage);
+        if(loadImageBitmap(data.getImage())!=null)
+        promoImage.setImageBitmap(loadImageBitmap(data.getImage()));
     }
 
     private String timeFormat(Date date){
@@ -76,6 +86,7 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
         intent.putExtra(DiscountDescription.PROMO_DESCRIPTION, currentPromo.getDescription());
         intent.putExtra(DiscountDescription.PROMO_START_DATE, currentPromo.getStartDate());
         intent.putExtra(DiscountDescription.PROMO_END_DATE, currentPromo.getEndDate());
+        intent.putExtra(DiscountDescription.PROMO_IMAGE, currentPromo.getImage());
         activity.startActivity(intent);
     }
 }

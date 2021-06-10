@@ -7,7 +7,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +25,20 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import org.hse.bonusokapplication.Models.CardModel;
 import org.hse.bonusokapplication.Models.ClientModel;
+
+import org.hse.bonusokapplication.Models.PromoModel;
+
 import org.hse.bonusokapplication.ViewModels.CardViewModel;
+import org.hse.bonusokapplication.ViewModels.PromoListViewModel;
+
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
     protected CardModel cardModel;
+  
+    private PromoListViewModel promoListViewModel;
+    private int clientId;
     protected ClientModel clientModel;
     protected ImageView imageView;
     protected TextView bonusQuantity;
@@ -34,6 +46,7 @@ public class ProfileFragment extends Fragment {
 
     private Button edit_profile_btn;
     private TextView user_name;
+
 
     public ProfileFragment() { }
 
@@ -44,8 +57,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+         prefs = new PreferenceManager(getActivity());
+        cardModel = prefs.getCardModel();
+        ClientModel clientModel = prefs.getClientModel();
+        clientId = clientModel.getId();
         edit_profile_btn = view.findViewById(R.id.btn_edit_profile);
         user_name = view.findViewById(R.id.user_name_textView);
+
         imageView = (ImageView)view.findViewById(R.id.qr);
         bonusQuantity = (TextView)view.findViewById(R.id.bonusQuantity);
 
@@ -58,7 +77,8 @@ public class ProfileFragment extends Fragment {
             user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
 
         imageView.setImageBitmap(CardViewModel.createQrBitmap(getCardCode()));
-
+        promoListViewModel = ViewModelProviders.of(this).get(PromoListViewModel.class);
+        ObserveAnyChange();
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -70,18 +90,6 @@ public class ProfileFragment extends Fragment {
          startActivity(intent);
     }
 
-    private void createQr(String code){
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        try{
-            BitMatrix bitMatrix = multiFormatWriter.encode(code, BarcodeFormat.QR_CODE, 500, 500);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-            imageView.setImageBitmap(bitmap);
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,5 +105,20 @@ public class ProfileFragment extends Fragment {
     private String getBonusQuantity(){
         int res = cardModel.getBonusQuantity();
         return Integer.toString(res);
+    }
+
+    private void ObserveAnyChange()
+    {
+        promoListViewModel.getPromoListObserver().observe(getActivity(), new Observer<List<PromoModel>>() {
+            @Override
+            public void onChanged(List<PromoModel> promoModels) {
+                // observing for any promo data change
+                if(promoModels!=null)
+                    for(PromoModel model: promoModels){
+                        Log.d("TAG", "onChanged: "+model.getDescription());
+                    }
+            }
+        });
+        promoListViewModel.searchPromoApi(clientId);
     }
 }
