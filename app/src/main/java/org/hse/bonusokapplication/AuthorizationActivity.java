@@ -222,47 +222,6 @@ public class AuthorizationActivity extends BaseClientActivity {
         makeTokenApiCall(phone_number, sms_code);
     }
 
-    private void observeAnyChangeAboutToken(){
-        clientViewModel.deviceModel.observe(this, new Observer<DeviceModel>() {
-            @Override
-            public void onChanged(DeviceModel device) {
-                if (device.getToken() == null) return;
-                prefs.saveToken(device.getToken());
-                getClientData(device.getUserId(), device.getToken());
-                getClientCard(device.getUserId(), device.getToken());
-                sendDeviceToken(device.getUserId());
-            }
-        });
-    }
-
-    public void getClientData(int clientId, String token){
-        clientViewModel.clientModel.observe(this, new Observer<ClientModel>() {
-            @Override
-            public void onChanged(ClientModel client) {
-                if (client != null) {
-                    prefs.saveClientModel(client);
-                }
-            }
-        });
-        makeClientApiCall(clientId, token);
-    }
-
-    public void getClientCard(int clientId, String token){
-        clientViewModel.cardModel.observe(this, new Observer<CardModel>() {
-            @Override
-            public void onChanged(CardModel card) {
-                //сохранить в преференсы
-                if (card == null) {
-                    Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                prefs.saveCardModel(card);
-                showProfile();
-            }
-        });
-        makeClientCardApiCall(clientId, token);
-    }
-
     protected void showProfile(){
         super.showProfile();
         this.finish();

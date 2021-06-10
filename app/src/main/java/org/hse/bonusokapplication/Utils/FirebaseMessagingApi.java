@@ -12,4 +12,8 @@ public interface FirebaseMessagingApi {
     @POST("/api/Client/{clientId}/AddDevice/{token}")
     Call<Void> addDevice(@Path("clientId") int clientId, @Path("token") String token);
 
+    //удаление токена устройства
+    @POST("/api/Client/{clientId}/DeleteDevice/{token}")
+    Call<Void> deleteDevice(@Path("clientId") int clientId, @Path("token") String token);
+
  }
