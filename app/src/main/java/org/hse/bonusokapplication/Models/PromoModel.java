@@ -14,17 +14,15 @@ public class PromoModel{
     private Date startDate;
     private Date endDate;
     private List<ClientModel> clients;
-    private byte[] image;
 
     // Constructor
-    public PromoModel(int id, String name, String description, Date startDate, Date endDate, List<ClientModel> clients, byte [] image) {
+    public PromoModel(int id, String name, String description, Date startDate, Date endDate, List<ClientModel> clients) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.clients = clients;
-        this.image = image;
     }
 
     public PromoModel(){
@@ -85,8 +83,4 @@ public class PromoModel{
     public List<ClientModel> getClients(){
         return clients;
     }
-
-    public byte[] getImage() {return image;}
-
-
 }
