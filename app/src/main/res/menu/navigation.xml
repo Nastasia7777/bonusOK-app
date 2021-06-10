@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/navigation_discount"
         android:icon="@drawable/discount"
-        android:title="@string/menu_discount_text" />
+        android:title="@string/menu_discount_text"
+        android:enabled="true"
+        app:showAsAction="withText"/>
 
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/profile"
-        android:title="@string/menu_profile_text" />
+        android:enabled="true"
+        android:title="@string/menu_profile_text"
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/admin_profile"
         android:icon="@drawable/admin_profile"
-        android:title="@string/menu_admin_text" />
+        android:enabled="true"
+        android:title="@string/menu_admin_text"
+        app:showAsAction="withText"/>
 
     <item
         android:id="@+id/navigation_about"
         android:icon="@drawable/about"
-        android:title="@string/menu_about_us_text" />
+        android:enabled="true"
+        android:title="@string/menu_about_us_text"
+        app:showAsAction="withText"/>
 </menu>

@@ -61,8 +61,7 @@ public class MenuActivity extends RootActivity {
         navigation.setSelectedItemId(R.id.navigation_profile);
         clientId = (int)getIntent().getExtras().get(CLIENT_ID);
 
-        Boolean isAdmin = clientId == 0;
+        Boolean isAdmin = clientId == 875;
         navigation.getMenu().findItem(R.id.admin_profile).setVisible(isAdmin);
     }
-
 }

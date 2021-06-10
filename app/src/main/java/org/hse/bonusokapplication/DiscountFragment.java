@@ -110,8 +110,6 @@ public class DiscountFragment extends Fragment implements OnPromoClick {
         promoListViewModel.searchPromoApi(clientId);
     }
 
-
-
     @Override
     public void OnClick(PromoModel data) {
         Toast.makeText(getActivity(), "Clicked Promo Name is : " +data.getName(), Toast.LENGTH_SHORT).show();
