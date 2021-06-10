@@ -107,18 +107,6 @@ public class ConfirmationActivity extends BaseClientActivity {
         makeTokenApiCall(phone_number, sms_code);
     }
 
-    private void observeAnyChangeAboutToken(){
-        clientViewModel.deviceModel.observe(this, new Observer<DeviceModel>() {
-            @Override
-            public void onChanged(DeviceModel device) {
-                if (device.getToken() == null) return;
-                prefs.saveToken(device.getToken());
-                sendDeviceToken(device.getUserId());
-                showProfile();
-            }
-        });
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -127,11 +115,5 @@ public class ConfirmationActivity extends BaseClientActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item); }
-    }
-
-    protected void showProfile(){
-        super.showProfile();
-        finishActivity("RegistrationActivity");
-        this.finish();
     }
 }

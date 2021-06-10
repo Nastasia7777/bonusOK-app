@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,17 +21,21 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import org.hse.bonusokapplication.Models.CardModel;
+import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.ViewModels.CardViewModel;
 
 public class ProfileFragment extends Fragment {
-        ImageView imageView;
-        TextView bonusQuantity;
-    protected PreferenceManager prefs;
+
     protected CardModel cardModel;
+    protected ClientModel clientModel;
+    protected ImageView imageView;
+    protected TextView bonusQuantity;
+    protected PreferenceManager prefs;
 
-    public ProfileFragment() {
+    private Button edit_profile_btn;
+    private TextView user_name;
 
-    }
+    public ProfileFragment() { }
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -39,12 +44,19 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-         View edit_profile_btn = view.findViewById(R.id.btn_edit_profile);
-        prefs = new PreferenceManager(getActivity());
-        cardModel = prefs.getCardModel();
+        edit_profile_btn = view.findViewById(R.id.btn_edit_profile);
+        user_name = view.findViewById(R.id.user_name_textView);
         imageView = (ImageView)view.findViewById(R.id.qr);
         bonusQuantity = (TextView)view.findViewById(R.id.bonusQuantity);
+
+        prefs = new PreferenceManager(getActivity());
+        cardModel = prefs.getCardModel();
+        clientModel = prefs.getClientModel();
+
         bonusQuantity.setText(getBonusQuantity());
+        if (clientModel.getName() != null)
+            user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
+
         imageView.setImageBitmap(CardViewModel.createQrBitmap(getCardCode()));
 
         edit_profile_btn.setOnClickListener(new View.OnClickListener() {
@@ -53,10 +65,10 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) { showEditProfile(); }
         });
     }
- private void showEditProfile() {
+    private void showEditProfile() {
          Intent intent = new Intent(getActivity(), EditingProfileActivity.class);
          startActivity(intent);
-     }
+    }
 
     private void createQr(String code){
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
@@ -74,8 +86,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 

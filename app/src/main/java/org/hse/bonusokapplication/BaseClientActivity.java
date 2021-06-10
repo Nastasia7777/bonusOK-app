@@ -19,6 +19,7 @@ import org.hse.bonusokapplication.Models.CardModel;
 import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.Models.DeviceModel;
 import org.hse.bonusokapplication.Push.DeviceIdSender;
+import org.hse.bonusokapplication.Repositories.ClientRepository;
 import org.hse.bonusokapplication.Request.Service;
 import org.hse.bonusokapplication.Utils.ClientApi;
 import org.hse.bonusokapplication.ViewModels.ClientViewModel;
@@ -36,7 +37,7 @@ public class BaseClientActivity extends RootActivity {
     protected PreferenceManager prefs;
     public static final String CLIENT_ID = "client_id";
     private static int clientId;
-    //protected ClientRepository clientRepository;
+    protected ClientRepository clientRepository;
 
     @Override
     protected void onCreate (@Nullable Bundle savedInstanceState) {
@@ -58,6 +59,19 @@ public class BaseClientActivity extends RootActivity {
         return phone_number.replaceAll("\\D", "");
     }
 
+    protected void observeAnyChangeAboutToken(){
+        clientViewModel.deviceModel.observe(this, new Observer<DeviceModel>() {
+            @Override
+            public void onChanged(DeviceModel device) {
+                if (device.getToken() == null) return;
+                prefs.saveToken(device.getToken());
+                getClientData(device.getUserId(), device.getToken());
+                getClientCard(device.getUserId(), device.getToken());
+                sendDeviceToken(device.getUserId());
+            }
+        });
+    }
+
     //Токен
     public void makeTokenApiCall (String phone, String sms_code)
     {
@@ -69,6 +83,7 @@ public class BaseClientActivity extends RootActivity {
             public void onResponse(Call<DeviceModel> call, Response<DeviceModel> response) {
                 if(response.code() == 200){
                     clientViewModel.deviceModel.postValue((DeviceModel) response.body());
+                    clientId = ((DeviceModel) response.body()).getUserId();
                     Log.d(TAG, "the response code is " + response.code());
                 }
                 else{
@@ -142,9 +157,11 @@ public class BaseClientActivity extends RootActivity {
 
     protected void showProfile() {
         Intent intent = new Intent(this, MenuActivity.class);
-        int clientId = prefs.getClientModel().getId();
+        //int clientId = prefs.getClientModel().getId();
         intent.putExtra(MenuActivity.CLIENT_ID, clientId);
         finishActivity("MainActivity");
+        finishActivity("RegistrationActivity");
+        finishActivity("ConfirmationActivity");
         startActivity(intent);
     }
 
@@ -168,5 +185,33 @@ public class BaseClientActivity extends RootActivity {
                         deviceIdSender.saveDevice(clientId, token);
                     }
                 });
+    }
+
+    public void getClientData(int clientId, String token){
+        clientViewModel.clientModel.observe(this, new Observer<ClientModel>() {
+            @Override
+            public void onChanged(ClientModel client) {
+                if (client != null) {
+                    prefs.saveClientModel(client);
+                }
+            }
+        });
+        makeClientApiCall(clientId, token);
+    }
+
+    public void getClientCard(int clientId, String token){
+        clientViewModel.cardModel.observe(this, new Observer<CardModel>() {
+            @Override
+            public void onChanged(CardModel card) {
+                //сохранить в преференсы
+                if (card == null) {
+                    Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                prefs.saveCardModel(card);
+                showProfile();
+            }
+        });
+        makeClientCardApiCall(clientId, token);
     }
 }
