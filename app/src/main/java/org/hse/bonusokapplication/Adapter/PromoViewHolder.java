@@ -60,19 +60,19 @@ public final class PromoViewHolder extends RecyclerView.ViewHolder implements Vi
                     .load(newImg)
                     .into(promoImage);
 
-        } //else
-//            try{
-//                Log.d("GLIDE_TAG", "loadImageFromCash: TRY");
-//                byte[] imageByteArray = Base64.decode(imageFilePath, Base64.DEFAULT);
-//                Log.d("GLIDE_TAG", "loadImageFromCash: "+imageByteArray.getClass()+"  "+imageByteArray.length);
-//                Glide.with(context)
-//                        .asBitmap()
-//                        .load(imageByteArray)
-//                        .into(promoImage);
-//                Log.d("glide","success");
-//            } catch (Exception e){
-//                Log.e("glide","exception", e);
-//            }
+        } else
+            try{
+                Log.d("GLIDE_TAG", "loadImageFromCash: TRY");
+                byte[] imageByteArray = Base64.decode(imageFilePath, Base64.DEFAULT);
+                Log.d("GLIDE_TAG", "loadImageFromCash: "+imageByteArray.getClass()+"  "+imageByteArray.length);
+                Glide.with(context)
+                        .asBitmap()
+                        .load(imageByteArray)
+                        .into(promoImage);
+                Log.d("glide","success");
+            } catch (Exception e){
+                Log.e("glide","exception", e);
+            }
 
     }
 
