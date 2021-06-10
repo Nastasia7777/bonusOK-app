@@ -20,6 +20,7 @@ import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.Models.DeviceModel;
 import org.hse.bonusokapplication.Push.DeviceIdSender;
 import org.hse.bonusokapplication.Repositories.ClientRepository;
+import org.hse.bonusokapplication.Push.MyFirebaseMessagingService;
 import org.hse.bonusokapplication.Request.Service;
 import org.hse.bonusokapplication.Utils.ClientApi;
 import org.hse.bonusokapplication.ViewModels.ClientViewModel;
@@ -166,25 +167,8 @@ public class BaseClientActivity extends RootActivity {
     }
 
     protected void sendDeviceToken(int clientId){
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("Device token", "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
-
-                        // Get new FCM registration token
-                        String token = task.getResult();
-
-                        // Log and toast
-                        Log.d("Device token", token);
-                        prefs.saveDeviceToken(token);
-                        DeviceIdSender deviceIdSender = new DeviceIdSender();
-                        deviceIdSender.saveDevice(clientId, token);
-                    }
-                });
+        MyFirebaseMessagingService mfs = new MyFirebaseMessagingService();
+        mfs.sendDeviceToken(clientId);
     }
 
     public void getClientData(int clientId, String token){
