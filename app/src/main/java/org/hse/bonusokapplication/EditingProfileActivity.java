@@ -23,6 +23,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.hse.bonusokapplication.Models.ClientModel;
+import org.hse.bonusokapplication.Push.MyFirebaseMessagingService;
 import org.hse.bonusokapplication.Request.Service;
 import org.hse.bonusokapplication.Utils.ClientApi;
 
@@ -163,12 +164,6 @@ public class EditingProfileActivity extends RootActivity {
         });
     }
 
-    private void showProfile() {
-        Intent intent = new Intent(this, ProfileFragment.class);
-        startActivity(intent);
-        this.finish();
-    }
-
     private void showMain() {
         Intent intent = new Intent(this, MainActivity.class);
         finishAll();
@@ -183,6 +178,8 @@ public class EditingProfileActivity extends RootActivity {
     ab.setPositiveButton("Да", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
+            MyFirebaseMessagingService mfs = new MyFirebaseMessagingService();
+            mfs.deleteDeviceToken(prefs.getClientModel().getId());
             prefs.deleteAllPreferences();
             showMain();
         }

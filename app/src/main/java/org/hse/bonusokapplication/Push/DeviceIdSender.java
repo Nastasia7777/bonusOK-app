@@ -33,4 +33,25 @@ public class DeviceIdSender {
             }
         });
     }
+
+    public void deleteDevice(int clientId, String deviceToken) {
+        String TAG = "deleteDevice";
+        FirebaseMessagingApi api = Service.getFirebaseMessagingApi();
+        Call responseCall = api.deleteDevice(clientId, deviceToken);
+        responseCall.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.code() == 200) {
+                    Log.d(TAG, "the response code is " + response.code());
+                } else {
+                    Log.d(TAG, "the error: " + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.d(TAG, "on failure: " + t.getMessage());
+            }
+        });
+    }
 }

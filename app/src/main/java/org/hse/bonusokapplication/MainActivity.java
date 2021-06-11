@@ -34,6 +34,7 @@ public class MainActivity extends RootActivity {
 
         //проверка сохранренного токена. Если есть, то открываем профиль
         prefs = new PreferenceManager(this);
+        //prefs.deleteAllPreferences();
         String s = prefs.getToken();
         if (prefs.getToken() != "") {
             Intent intent = new Intent(this, MenuActivity.class);
@@ -47,7 +48,7 @@ public class MainActivity extends RootActivity {
         View registration_btn= findViewById(R.id.btn_registration);
         View enter_btn = findViewById(R.id.btn_enter);
         promoListViewModel = ViewModelProviders.of(this).get(PromoListViewModel.class);
-        ObserveAnyChange();
+       // ObserveAnyChange();
 
         registration_btn.setOnClickListener(new View.OnClickListener() {
             @Override

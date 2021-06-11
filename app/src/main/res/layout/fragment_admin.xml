@@ -5,11 +5,63 @@
     android:layout_height="match_parent"
     tools:context=".AdminFragment">
 
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <Button
+            android:id="@+id/read_qr_code_btn"
+            android:layout_width="247dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="35dp"
+            android:onClick="readQRonClick"
+            android:text="@string/read_qr_code"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="@string/bonus_count"
+            android:textSize="24sp"></TextView>
+
+        <EditText
+            android:id="@+id/bonus_count_text"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:inputType="number"></EditText>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/delete_bonus_btn"
+                android:layout_width="155dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:onClick="deleteBonusOnClick"
+                android:text="@string/delete_bonus"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/add_bonus_btn"
+                android:layout_width="155dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:onClick="addBonusOnClick"
+                android:text="@string/add_bonus"
+                android:textSize="18sp">
+
+            </Button>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </FrameLayout>
