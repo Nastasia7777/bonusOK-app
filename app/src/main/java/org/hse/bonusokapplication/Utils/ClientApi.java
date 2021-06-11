@@ -2,6 +2,7 @@ package org.hse.bonusokapplication.Utils;
 
 import com.google.gson.Gson;
 
+import org.hse.bonusokapplication.Models.BonusModel;
 import org.hse.bonusokapplication.Models.CardModel;
 import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.Models.DeviceModel;
@@ -40,10 +41,18 @@ public interface ClientApi {
     Call<DeviceModel> getToken (@Query("number") String phoneNumber, @Query("code") String code);
 
     //регистрация пользователя
-    @POST("/api/Auth/register")
+    @POST("api/Auth/register")
     Call<Void> postNewUser (@Query("number") String phoneNumber);
 
     //обновление данных пользователя
     @PUT("/api/Client/{id}")
     Call<Void> putClientData (@Path("id") int id, @Header("Authorization") String token, @Body ClientModel model);
+
+    //списать бонусы
+    @POST("api/Admin/ChargeOff")
+    Call<Void> deleteBonus (@Header("Authorization") String token, @Body BonusModel model);
+
+    //начисслить бонусы
+    @POST("/api/Admin/Award")
+    Call<Void> addBonus (@Header("Authorization") String token, @Body BonusModel model);
 }
