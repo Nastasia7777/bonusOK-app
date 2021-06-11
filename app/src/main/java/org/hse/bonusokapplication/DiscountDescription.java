@@ -1,8 +1,10 @@
 package org.hse.bonusokapplication;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +40,9 @@ public class DiscountDescription extends RootActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discount_description);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         promoName = (String) getIntent().getExtras().get(PROMO_NAME);
         promoDescription = (String) getIntent().getExtras().get(PROMO_DESCRIPTION);
@@ -64,6 +69,16 @@ public class DiscountDescription extends RootActivity {
         Locale rus = new Locale("ru", "RU");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.", rus);
         return simpleDateFormat.format(date);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item); }
     }
 }
 
