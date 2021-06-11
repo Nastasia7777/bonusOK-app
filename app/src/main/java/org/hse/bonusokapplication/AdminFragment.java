@@ -1,5 +1,8 @@
 package org.hse.bonusokapplication;
 
+import android.content.Intent;
+import android.hardware.camera2.CameraCaptureSession;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import org.hse.bonusokapplication.Models.BonusModel;
 import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.Request.Service;
@@ -24,6 +30,9 @@ import org.hse.bonusokapplication.Utils.ClientApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class AdminFragment extends Fragment {
 
@@ -63,10 +72,14 @@ public class AdminFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                cardCode = 2294364;
-                bonusModel.setCardCode(cardCode);
+                IntentIntegrator intentIntegrator = new IntentIntegrator(getActivity()).forSupportFragment(AdminFragment.this);
+                intentIntegrator.setBeepEnabled(false);
+                intentIntegrator.setOrientationLocked(true);
+                intentIntegrator.setCaptureActivity(Capture.class);
+                intentIntegrator.initiateScan();
             }
         });
+
 
         delete_bonus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +111,7 @@ public class AdminFragment extends Fragment {
             }
         });
     }
+
 
     public int getBonusNumber (){
         return Integer.parseInt(bonus_count.getText().toString());
@@ -148,4 +162,23 @@ public class AdminFragment extends Fragment {
             }
         });
     }
+
+
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode,  resultCode,  data);
+        if(intentResult.getContents()!=null){
+            try {
+                cardCode = Integer.parseInt(intentResult.getContents());
+                Log.d("QR", "QR READ CARD_CODE: "+cardCode);
+                bonusModel.setCardCode(cardCode);
+            }catch(Exception e){
+                Log.e("QR", "QR ERROR: ", e);
+            }
+        }
+        else{
+            Log.d("QR", "NOTHING");
+        }
+    }
+
+
 }
