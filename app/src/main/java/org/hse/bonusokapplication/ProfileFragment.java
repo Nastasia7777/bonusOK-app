@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
         clientModel = prefs.getClientModel();
 
         bonusQuantity.setText(getBonusQuantity());
-        if (clientModel.getName() != null)
+        if (clientModel.getName() != null && clientModel.getSurname() != null)
             user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
 
         imageView.setImageBitmap(CardViewModel.createQrBitmap(getCardCode()));

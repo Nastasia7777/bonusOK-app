@@ -43,8 +43,7 @@
     <string name="editing_profile_activity_title">Редактирование профиля</string>
     <string name="profile_activity_title">Профиль</string>
     <string name="menu_profile_text">Профиль</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_admin_text">Админ</string>
 
     //AuthorizationActivity
     <string name="input_phone_number">Введите номер телефона</string>
@@ -62,6 +61,16 @@
     <string name="name_user_editView">Имя пользователя</string>
     <string name="surname_user_editView">Фамилия пользователя</string>
     <string name="email_user_editView">Электронная почта</string>
-    <string name="menu_admin_text">Админ</string>
+
+    //AdminFragment
+    <string name="read_qr_code">Считать QR-код</string>
+    <string name="bonus_count">Количество бонуов:</string>
+    <string name="delete_bonus">Списать бонусы</string>
+    <string name="add_bonus">Начислить бонусы</string>
+    <string name="skan_qr">Отсканируйте QR-код!</string>
+    <string name="bonus_added">Бонусы начислены</string>
+    <string name="invalid_bonus_add">Ошибка зачисления</string>
+    <string name="bonus_deleted">Бонусы списаны</string>
+    <string name="invalid_bonus_delete">Ошибка зачисления</string>
 
 </resources>

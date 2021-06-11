@@ -64,7 +64,7 @@ public class BaseClientActivity extends RootActivity {
             @Override
             public void onChanged(DeviceModel device) {
                 if (device.getToken() == null) return;
-                prefs.saveToken(device.getToken());
+                prefs.saveToken("Bearer " + device.getToken());
                 getClientData(device.getUserId(), device.getToken());
                 getClientCard(device.getUserId(), device.getToken());
                 sendDeviceToken(device.getUserId());
