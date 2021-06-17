@@ -9,13 +9,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
@@ -32,6 +35,7 @@ import org.hse.bonusokapplication.ViewModels.CardViewModel;
 import org.hse.bonusokapplication.ViewModels.PromoListViewModel;
 
 import java.util.List;
+import java.util.Random;
 
 public class ProfileFragment extends Fragment {
 
@@ -46,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
     private Button edit_profile_btn;
     private TextView user_name;
-
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public ProfileFragment() { }
 
@@ -84,7 +88,30 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) { showEditProfile(); }
         });
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh() {
+                bonusQuantity.setText(getBonusQuantity());
+                //if (clientModel.getName() != null && clientModel.getSurname() != null)
+                //    user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        // Альтернативный способ
+        //  mSwipeRefreshLayout.setColorSchemeColors(
+        //  Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
+
     }
+
+
     private void showEditProfile() {
          Intent intent = new Intent(getActivity(), EditingProfileActivity.class);
          startActivity(intent);

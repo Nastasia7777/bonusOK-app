@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -27,6 +28,8 @@ import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.Request.Service;
 import org.hse.bonusokapplication.Utils.ClientApi;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,7 +42,9 @@ public class AdminFragment extends Fragment {
     private Button read_qr_btn;
     private Button delete_bonus;
     private Button add_bonus;
-    private EditText bonus_count, card_code_text;
+    private EditText bonus_count;
+    private TextView card_code_text;
+
 
     private BonusModel bonusModel;
     private int cardCode = -1;
@@ -177,7 +182,7 @@ public class AdminFragment extends Fragment {
                 cardCode = Integer.parseInt(intentResult.getContents());
                 Log.d("QR", "QR READ CARD_CODE: " + cardCode);
                 bonusModel.setCardCode(cardCode);
-                card_code_text.setText(R.string.client_card_number + cardCode);
+                card_code_text.setText(getString(R.string.client_card_number, String.valueOf(cardCode)));
                 card_code_text.setVisibility(View.VISIBLE);
             }catch(Exception e){
                 Log.e("QR", "QR ERROR: ", e);
