@@ -26,8 +26,9 @@ public class ConfirmationActivity extends BaseClientActivity {
     private PreferenceManager prefs;
     EditText code_input;
     Button enter2_profile_btn;
-    TextView mTimer;
+    TextView mTimer, resend_code;
     private String phone_number, sms_code;
+    boolean hasTimerFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class ConfirmationActivity extends BaseClientActivity {
 
         enter2_profile_btn = findViewById(R.id.btn_enter2_profile);
         code_input = findViewById(R.id.code_input);
+        resend_code = findViewById(R.id.resend_code);
         enter2_profile_btn.setEnabled(false);
 
         prefs = new PreferenceManager(this);
@@ -60,7 +62,7 @@ public class ConfirmationActivity extends BaseClientActivity {
             public void afterTextChanged(Editable s) { }
         });
 
-        boolean hasTimerFinished = false;
+
         mTimer = findViewById(R.id.resend_code);
 
         mTimer.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +74,6 @@ public class ConfirmationActivity extends BaseClientActivity {
                 }
             }
         });
-
          startResendTimer();
     }
 
@@ -82,9 +83,10 @@ public class ConfirmationActivity extends BaseClientActivity {
 
         mTimer.setClickable(false);
         mTimer.setFocusable(false);
+        hasTimerFinished = false;
      //Создаем таймер обратного отсчета на 20 секунд с шагом отсчета
         //в 1 секунду (задаем значения в миллисекундах):
-        new CountDownTimer(20000, 1000) {
+        new CountDownTimer(30000, 1000) {
 
             //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
             public void onTick(long millisUntilFinished) {
@@ -97,6 +99,7 @@ public class ConfirmationActivity extends BaseClientActivity {
                 mTimer.setTextColor(ContextCompat.getColor(context, R.color.link));
                 mTimer.setClickable(true);
                 mTimer.setFocusable(true);
+                hasTimerFinished = true;
             }
         }
                 .start();

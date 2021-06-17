@@ -51,6 +51,7 @@ public class AuthorizationActivity extends BaseClientActivity {
     private String phone_number, sms_code;
     TextView mTimer;
     //private Boolean user_can_enter = false;
+    boolean hasTimerFinished = false;
 
     private String TAG = "AuthorizationActivity";
 
@@ -103,14 +104,12 @@ public class AuthorizationActivity extends BaseClientActivity {
             public void afterTextChanged(Editable s) { }
         });
 
-        boolean hasTimerFinished = false;
         mTimer = findViewById(R.id.resend_code);
 
         mTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (hasTimerFinished) {
-                    // Повторный запрос
                     startResendTimer();
                 }
             }
@@ -123,9 +122,11 @@ public class AuthorizationActivity extends BaseClientActivity {
 
         mTimer.setClickable(false);
         mTimer.setFocusable(false);
+        get_code_btn.setEnabled(false);
+        hasTimerFinished = false;
         //Создаем таймер обратного отсчета на 20 секунд с шагом отсчета
         //в 1 секунду (задаем значения в миллисекундах):
-        new CountDownTimer(20000, 1000) {
+        new CountDownTimer(30000, 1000) {
 
             //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
             public void onTick(long millisUntilFinished) {
@@ -138,7 +139,8 @@ public class AuthorizationActivity extends BaseClientActivity {
                 mTimer.setTextColor(ContextCompat.getColor(context, R.color.link));
                 mTimer.setClickable(true);
                 mTimer.setFocusable(true);
-
+                hasTimerFinished = true;
+                get_code_btn.setEnabled(true);
             }
         }
                 .start();
@@ -163,6 +165,7 @@ public class AuthorizationActivity extends BaseClientActivity {
         prefs.savePhoneNumber(phone_number);
         observeAnyChangeAboutUserStatus();
         makeAuthCodeApiCall(phone_number);
+        get_code_btn.setEnabled(false);
     }
 
     private void observeAnyChangeAboutUserStatus(){
