@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -43,7 +44,7 @@ public class ProfileFragment extends Fragment {
   
     private PromoListViewModel promoListViewModel;
     private int clientId;
-    protected ClientModel clientModel;
+    public ClientModel clientModel;
     protected ImageView imageView;
     protected TextView bonusQuantity;
     protected PreferenceManager prefs;
@@ -64,7 +65,7 @@ public class ProfileFragment extends Fragment {
 
          prefs = new PreferenceManager(getActivity());
         cardModel = prefs.getCardModel();
-        ClientModel clientModel = prefs.getClientModel();
+        clientModel = prefs.getClientModel();
         clientId = clientModel.getId();
         edit_profile_btn = view.findViewById(R.id.btn_edit_profile);
         user_name = view.findViewById(R.id.user_name_textView);
@@ -94,8 +95,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onRefresh() {
                 bonusQuantity.setText(getBonusQuantity());
-                //if (clientModel.getName() != null && clientModel.getSurname() != null)
-                //    user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
+                if (clientModel.getName() != null && clientModel.getSurname() != null)
+                user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
+                String s = clientModel.getName();
+                String v = clientModel.getSurname();
+                //bonusQuantity.invalidate();
+                //bonusQuantity.requestLayout();
+                user_name.invalidate();
+                user_name.requestLayout();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
