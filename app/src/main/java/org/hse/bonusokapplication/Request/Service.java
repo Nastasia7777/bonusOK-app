@@ -55,7 +55,7 @@ public class Service {
 
     private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
             .baseUrl(Credentials.BASE_URL)
-            .client(httpClient)
+
             .addConverterFactory(GsonConverterFactory.create(gson));
 
     private static Retrofit retrofit = retrofitBuilder.build();

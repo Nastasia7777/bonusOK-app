@@ -28,8 +28,8 @@
         android:text="@string/name_discount_text"
         android:textSize="18dp"
         android:textStyle="bold"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"/>
 
      <TextView
          android:id="@+id/description"
@@ -37,8 +37,8 @@
         android:layout_height="wrap_content"
         android:text="@string/date_discount_text"
         android:textSize="18dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
         android:layout_gravity="center"/>
 </LinearLayout>
 
