@@ -12,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.hse.bonusokapplication.DiscountFragment;
+import org.hse.bonusokapplication.MenuActivity;
 import org.hse.bonusokapplication.NotificationsManager;
 import org.hse.bonusokapplication.PreferenceManager;
 import org.json.JSONException;
@@ -63,8 +64,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //creating MyNotificationManager object
             NotificationsManager mNotificationManager = new NotificationsManager(getApplicationContext());
 
+            pref = new PreferenceManager(getApplicationContext());
+
             //creating an intent for the notification
-            Intent intent = new Intent(getApplicationContext(), DiscountFragment.class);
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            int clientId = pref.getClientModel().getId();
+            intent.putExtra(MenuActivity.CLIENT_ID, clientId);
 
             mNotificationManager.showSmallNotification(title, message, intent);
 
