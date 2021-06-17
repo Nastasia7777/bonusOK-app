@@ -72,5 +72,6 @@
     <string name="invalid_bonus_add">Ошибка зачисления</string>
     <string name="bonus_deleted">Бонусы списаны</string>
     <string name="invalid_bonus_delete">Ошибка зачисления</string>
-
+    <string name="card_code_qr_result">Номер карты пользователя: </string>
+    <string name="card_code_qr_fail">Ошибка получения номера карты</string>
 </resources>

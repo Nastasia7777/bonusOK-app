@@ -171,8 +171,11 @@ public class AdminFragment extends Fragment {
                 cardCode = Integer.parseInt(intentResult.getContents());
                 Log.d("QR", "QR READ CARD_CODE: "+cardCode);
                 bonusModel.setCardCode(cardCode);
+                String text = getString(R.string.card_code_qr_result)+cardCode;
+                Toast.makeText(getContext(),text, Toast.LENGTH_SHORT).show();
             }catch(Exception e){
                 Log.e("QR", "QR ERROR: ", e);
+                Toast.makeText(getContext(), R.string.card_code_qr_fail, Toast.LENGTH_SHORT).show();
             }
         }
         else{
