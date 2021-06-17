@@ -39,7 +39,7 @@ public class AdminFragment extends Fragment {
     private Button read_qr_btn;
     private Button delete_bonus;
     private Button add_bonus;
-    private EditText bonus_count;
+    private EditText bonus_count, card_code_text;
 
     private BonusModel bonusModel;
     private int cardCode = -1;
@@ -62,6 +62,8 @@ public class AdminFragment extends Fragment {
         delete_bonus = getView().findViewById(R.id.delete_bonus_btn);
         add_bonus = getView().findViewById(R.id.add_bonus_btn);
         bonus_count = getView().findViewById(R.id.bonus_count_text);
+        card_code_text = getView().findViewById(R.id.card_code_text);
+        card_code_text.setVisibility(View.INVISIBLE);
 
         bonusModel = new BonusModel();
         prefs = new PreferenceManager(getActivity());
@@ -131,6 +133,8 @@ public class AdminFragment extends Fragment {
                 else{
                     Toast.makeText(getContext(), R.string.invalid_bonus_delete, Toast.LENGTH_SHORT).show();
                 }
+                card_code_text.setVisibility(View.INVISIBLE);
+                cardCode = -1;
             }
 
             @Override
@@ -154,6 +158,8 @@ public class AdminFragment extends Fragment {
                 else{
                     Toast.makeText(getContext(), R.string.invalid_bonus_add, Toast.LENGTH_SHORT).show();
                 }
+                card_code_text.setVisibility(View.INVISIBLE);
+                cardCode = -1;
             }
 
             @Override
@@ -169,8 +175,10 @@ public class AdminFragment extends Fragment {
         if(intentResult.getContents()!=null){
             try {
                 cardCode = Integer.parseInt(intentResult.getContents());
-                Log.d("QR", "QR READ CARD_CODE: "+cardCode);
+                Log.d("QR", "QR READ CARD_CODE: " + cardCode);
                 bonusModel.setCardCode(cardCode);
+                card_code_text.setText(R.string.client_card_number + cardCode);
+                card_code_text.setVisibility(View.VISIBLE);
             }catch(Exception e){
                 Log.e("QR", "QR ERROR: ", e);
             }

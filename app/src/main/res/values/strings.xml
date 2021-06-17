@@ -71,6 +71,7 @@
     <string name="bonus_added">Бонусы начислены</string>
     <string name="invalid_bonus_add">Ошибка зачисления</string>
     <string name="bonus_deleted">Бонусы списаны</string>
-    <string name="invalid_bonus_delete">Ошибка зачисления</string>
+    <string name="invalid_bonus_delete">Ошибка списания</string>
+    <string name="client_card_number">Номер карты клиента: </string>
 
 </resources>
