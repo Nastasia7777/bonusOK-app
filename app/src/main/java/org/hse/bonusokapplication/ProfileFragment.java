@@ -100,10 +100,11 @@ public class ProfileFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {
-                bonusQuantity.setText(getBonusQuantity());
                 makeClientApiCall(clientModel.getId(), prefs.getToken());
+                makeClientCardApiCall(clientModel.getId(), prefs.getToken());
                 if (clientModel.getName() != null && clientModel.getSurname() != null)
                 user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
+                bonusQuantity.setText(getBonusQuantity());
                 String s = clientModel.getName();
                 String v = clientModel.getSurname();
                 //bonusQuantity.invalidate();
@@ -144,6 +145,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private String getBonusQuantity(){
+        //запрос к карте клиента
         int res = cardModel.getBonusQuantity();
         return Integer.toString(res);
     }
@@ -184,6 +186,40 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ClientModel> call, Throwable t) {
+                Log.d(TAG, "on failure: "+t.getMessage());
+            }
+        });
+    }
+
+    public void makeClientCardApiCall (int user_id, String token)
+    {
+        String TAG = "makeClientCardApiCall";
+        ClientApi clientApi = Service.getClientApi();
+        Call<CardModel> responseCall = clientApi.getClientCard(user_id, token);
+        responseCall.enqueue(new Callback<CardModel>() {
+            @Override
+            public void onResponse(Call<CardModel> call, Response<CardModel> response) {
+                switch (response.code()){
+                    case 200:
+                        //clientViewModel.cardModel.postValue((CardModel) response.body());
+                        prefs.saveClientModel((CardModel) response.body());
+                        cardModel = (CardModel) response.body();
+                        Log.d(TAG, "get card, the response code is " + response.code());
+                        break;
+                    case 400:
+                        Log.d(TAG, "client doesn`t have a card, the error: "+response.errorBody().toString());
+                        break;
+                    case 403:
+                        Log.d(TAG, "invalid token, the error: "+response.errorBody().toString());
+                        break;
+                    case 404:
+                        Log.d(TAG, "client doesn`t exist, the error: "+response.errorBody().toString());
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CardModel> call, Throwable t) {
                 Log.d(TAG, "on failure: "+t.getMessage());
             }
         });
