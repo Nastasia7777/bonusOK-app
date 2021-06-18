@@ -24,6 +24,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import org.hse.bonusokapplication.Models.BonusModel;
+import org.hse.bonusokapplication.Models.CardModel;
 import org.hse.bonusokapplication.Models.ClientModel;
 import org.hse.bonusokapplication.Request.Service;
 import org.hse.bonusokapplication.Utils.ClientApi;
@@ -46,6 +47,7 @@ public class AdminFragment extends Fragment {
     private TextView card_code_text;
 
 
+    private CardModel cardModel;
     private BonusModel bonusModel;
     private int cardCode = -1;
     private int bonusNumber;
@@ -73,6 +75,7 @@ public class AdminFragment extends Fragment {
         bonusModel = new BonusModel();
         prefs = new PreferenceManager(getActivity());
         String t = prefs.getToken();
+        cardModel = prefs.getCardModel();
         bonusModel.setAdminId(prefs.getClientModel().getId());
 
         read_qr_btn.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +137,10 @@ public class AdminFragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 200){
                     Toast.makeText(getContext(), R.string.bonus_deleted, Toast.LENGTH_SHORT).show();
+                    //int count = prefs.getCardModel().getBonusQuantity();
+                    //count -= getBonusNumber();
+                    //cardModel.setBonusQuantity(count);
+                    //prefs.saveCardModel(cardModel);
                 }
                 else{
                     Toast.makeText(getContext(), R.string.invalid_bonus_delete, Toast.LENGTH_SHORT).show();
@@ -159,6 +166,10 @@ public class AdminFragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 200){
                     Toast.makeText(getContext(), R.string.bonus_added, Toast.LENGTH_SHORT).show();
+                    //int count = prefs.getCardModel().getBonusQuantity();
+                    //count += getBonusNumber();
+                    //cardModel.setBonusQuantity(getBonusNumber());
+                    //prefs.saveCardModel(cardModel);
                 }
                 else{
                     Toast.makeText(getContext(), R.string.invalid_bonus_add, Toast.LENGTH_SHORT).show();

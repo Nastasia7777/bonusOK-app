@@ -46,6 +46,11 @@ public class CardModel  {
         return cardCode;
     }
 
+    // Setters
+    public void setBonusQuantity(int bq) {
+        this.bonusQuantity = bq;
+    }
+
 //
 //    @Override
 //    public int describeContents() {
