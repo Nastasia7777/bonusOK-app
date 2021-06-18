@@ -32,11 +32,17 @@ import org.hse.bonusokapplication.Models.ClientModel;
 
 import org.hse.bonusokapplication.Models.PromoModel;
 
+import org.hse.bonusokapplication.Request.Service;
+import org.hse.bonusokapplication.Utils.ClientApi;
 import org.hse.bonusokapplication.ViewModels.CardViewModel;
 import org.hse.bonusokapplication.ViewModels.PromoListViewModel;
 
 import java.util.List;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -95,6 +101,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onRefresh() {
                 bonusQuantity.setText(getBonusQuantity());
+                makeClientApiCall(clientModel.getId(), prefs.getToken());
                 if (clientModel.getName() != null && clientModel.getSurname() != null)
                 user_name.setText(clientModel.getName() + " " + clientModel.getSurname());
                 String s = clientModel.getName();
@@ -154,5 +161,31 @@ public class ProfileFragment extends Fragment {
             }
         });
         promoListViewModel.searchPromoApi(clientId);
+    }
+
+    public void makeClientApiCall (int user_id, String token)
+    {
+        String TAG = "makeClientApiCall";
+        ClientApi clientApi = Service.getClientApi();
+        Call<ClientModel> responseCall = clientApi.getClient(user_id, token);
+        responseCall.enqueue(new Callback<ClientModel>() {
+            @Override
+            public void onResponse(Call<ClientModel> call, Response<ClientModel> response) {
+                if(response.code() == 200){
+                    //clientViewModel.clientModel.postValue((ClientModel) response.body());
+                    prefs.saveClientModel((ClientModel) response.body());
+                    clientModel = (ClientModel) response.body();
+                    Log.d(TAG, "get client, the response code is " + response.code());
+                }
+                else{ //403, неверный токен
+                    Log.d(TAG, "invalid token, the error: "+response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClientModel> call, Throwable t) {
+                Log.d(TAG, "on failure: "+t.getMessage());
+            }
+        });
     }
 }
